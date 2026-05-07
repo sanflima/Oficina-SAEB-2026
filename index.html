@@ -88,8 +88,36 @@ nav {
   background: var(--white);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-xl);
-  padding: 24px;
+  padding: 28px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(37,99,235,0.09);
+}
+/* Prof card */
+.prof-photo {
+  width: 96px; height: 96px; border-radius: 50%;
+  object-fit: cover; display: block;
+  margin: 0 auto 14px;
+  border: 3px solid var(--blue-100);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.15);
+}
+.prof-name {
+  font-size: 1rem; font-weight: 800; color: var(--fg-1);
+  text-align: center; margin-bottom: 4px; line-height: 1.3;
+}
+.prof-tag {
+  font-size: .7rem; font-weight: 700; color: var(--brand-primary);
+  text-align: center; text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: 16px;
+}
+.prof-items { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.prof-item {
+  font-size: .78rem; color: var(--fg-2); line-height: 1.4;
+  padding: 7px 10px; background: var(--gray-50); border-radius: var(--radius-md);
+  border-left: 3px solid var(--brand-primary);
+}
+.prof-bio {
+  font-size: .75rem; color: var(--fg-3); line-height: 1.55;
+  text-align: center; font-style: italic; padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
 }
 .hero-card-header {
   display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
@@ -466,39 +494,17 @@ footer { background: var(--navy-900); padding: 56px 0 32px; }
       </div>
       </div>
       <div class="hero-card">
-        <div class="hero-card-header">
-          <div class="hc-icon">📊</div>
-          <div>
-            <div class="hc-title">Oficina SAEB 2025</div>
-            <div class="hc-sub">Programa estruturado e orientado</div>
-          </div>
-          <div class="hc-badge">Inscrições abertas</div>
+        <img class="prof-photo" src="assets/Jo%C3%A3o%20Batista%20Rodrigues%20da%20Silva.png" alt="Prof. Dr. João Batista Rodrigues da Silva">
+        <div class="prof-name">Prof. Dr. João Batista Rodrigues da Silva</div>
+        <div class="prof-tag">Idealizador da Oficina SAEB</div>
+        <div class="prof-items">
+          <div class="prof-item">🎓 Doutorado em Educação (reconhecido em instituição brasileira)</div>
+          <div class="prof-item">📚 Mestrado em Ensino de Ciências Naturais e Matemática</div>
+          <div class="prof-item">⭐ Esp. em Programação do Ensino de Matemática</div>
+          <div class="prof-item">⭐ Esp. em Educação, Contemporaneidade e Novas Tecnologias</div>
+          <div class="prof-item">📐 Licenciatura em Matemática e Física</div>
         </div>
-        <div class="hc-row">
-          <div class="hc-row-icon">📊</div>
-          <div>
-            <div class="hc-row-title">Análise de Resultados</div>
-            <div class="hc-row-sub">Interpretação dos microdados do SAEB</div>
-          </div>
-          <div class="hc-check">✓</div>
-        </div>
-        <div class="hc-row">
-          <div class="hc-row-icon">📐</div>
-          <div>
-            <div class="hc-row-title">Matrizes de Referência</div>
-            <div class="hc-row-sub">Mapeamento das competências avaliadas</div>
-          </div>
-          <div class="hc-check">✓</div>
-        </div>
-        <div class="hc-row">
-          <div class="hc-row-icon">📝</div>
-          <div>
-            <div class="hc-row-title">Práticas Pedagógicas</div>
-            <div class="hc-row-sub">Estratégias baseadas em evidências</div>
-          </div>
-          <div class="hc-check">✓</div>
-        </div>
-        <div class="hc-stat">+120 professores já participaram das edições anteriores</div>
+        <div class="prof-bio">Experiência na Educação Básica e Superior, com atuação em formação continuada de professores que ensinam matemática — laboratório de ensino e formação inicial e continuada.</div>
       </div>
     </div>
   </div>
