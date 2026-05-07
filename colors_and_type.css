@@ -1,0 +1,335 @@
+/* ═══════════════════════════════════════════════
+   SAEB WORKSHOP — PROFMAT / UNIVASF
+   Colors & Typography CSS Variables
+   Reference: Visa Group sales page (behance.net/gallery/246423775)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:wght@400;600;700&display=swap');
+
+/* ── Raw Color Palette ───────────────────────────────────── */
+:root {
+  /* Blues (primary) */
+  --blue-50:  #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+
+  /* Navy (dark sections) */
+  --navy-900: #0d1b3e;
+  --navy-800: #1a2a50;
+  --navy-700: #243566;
+  --navy-600: #2e4080;
+
+  /* PROFMAT Teal */
+  --teal-400: #2bb5c0;
+  --teal-500: #1a9ea8;
+  --teal-600: #147d88;
+  --teal-100: #d0f4f7;
+
+  /* UNIVASF Gold/Amber */
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-300: #fde68a;
+
+  /* Neutrals */
+  --gray-50:  #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+
+  /* Pure */
+  --white: #ffffff;
+  --black: #000000;
+}
+
+/* ── Semantic Color Tokens ────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-page:        var(--gray-50);        /* page default */
+  --bg-surface:     var(--white);          /* cards, panels */
+  --bg-dark:        var(--navy-900);       /* dark section bg */
+  --bg-dark-card:   var(--navy-800);       /* card inside dark section */
+  --bg-tint:        var(--blue-50);        /* subtle tinted bg */
+  --bg-tag:         var(--blue-100);       /* pill tag background */
+
+  /* Foregrounds */
+  --fg-1:           var(--gray-900);       /* primary text */
+  --fg-2:           var(--gray-600);       /* body / secondary */
+  --fg-3:           var(--gray-400);       /* muted / caption */
+  --fg-inverse:     var(--white);          /* text on dark */
+  --fg-inverse-2:   rgba(255,255,255,0.7); /* muted on dark */
+
+  /* Brand */
+  --brand-primary:  var(--blue-600);       /* primary action blue */
+  --brand-primary-hover: var(--blue-700);
+  --brand-teal:     var(--teal-500);       /* PROFMAT teal */
+  --brand-gold:     var(--gold-500);       /* UNIVASF gold */
+  --brand-navy:     var(--navy-900);       /* UNIVASF navy / dark */
+
+  /* Accents in headings */
+  --heading-accent: var(--blue-600);       /* colored word in big heading */
+  --heading-accent-teal: var(--teal-500);  /* teal variant */
+
+  /* Interactive */
+  --btn-primary-bg:    var(--blue-600);
+  --btn-primary-text:  var(--white);
+  --btn-outline-border: var(--gray-300);
+  --btn-outline-text:  var(--gray-900);
+  --link-color:        var(--blue-600);
+
+  /* Borders */
+  --border-subtle:  var(--gray-200);
+  --border-card:    var(--gray-200);
+
+  /* Shadows */
+  --shadow-card:    0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+  --shadow-card-hover: 0 4px 12px rgba(37,99,235,0.12), 0 8px 32px rgba(0,0,0,0.08);
+  --shadow-btn:     0 2px 8px rgba(37,99,235,0.25);
+
+  /* Radii */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
+
+/* ── Typography Tokens ────────────────────────────────────── */
+:root {
+  --font-sans:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-serif:   'Lora', Georgia, serif;   /* used sparingly for pull quotes */
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Scale */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.25rem;    /* 36px */
+  --text-5xl:  3rem;       /* 48px */
+  --text-6xl:  3.75rem;    /* 60px */
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+  --weight-extrabold: 800;
+
+  /* Leading */
+  --leading-tight:  1.2;
+  --leading-snug:   1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed:1.75;
+
+  /* Tracking */
+  --tracking-wide:  0.05em;
+  --tracking-wider: 0.08em;
+}
+
+/* ── Semantic Type Styles ─────────────────────────────────── */
+
+/* Display / Hero */
+.text-display {
+  font-family: var(--font-sans);
+  font-size: var(--text-5xl);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  color: var(--fg-1);
+}
+
+/* H1 */
+h1, .h1 {
+  font-family: var(--font-sans);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  color: var(--fg-1);
+}
+
+/* H2 */
+h2, .h2 {
+  font-family: var(--font-sans);
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--fg-1);
+}
+
+/* H3 */
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  color: var(--fg-1);
+}
+
+/* H4 */
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--fg-1);
+}
+
+/* Body */
+p, .body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--fg-2);
+}
+
+/* Small / Caption */
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--fg-3);
+  line-height: var(--leading-normal);
+}
+
+/* Section tag / label pill */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--bg-tag);
+  color: var(--brand-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* Accent text (colored word inside heading) */
+.accent { color: var(--heading-accent); }
+.accent-teal { color: var(--heading-accent-teal); }
+
+/* ── Base Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+/* ── Utility Classes ──────────────────────────────────────── */
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-pill);
+  border: none; cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--brand-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+}
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: transparent;
+  color: var(--btn-outline-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--btn-outline-border);
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  background: var(--blue-50);
+}
+
+/* Card */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+/* Card Dark */
+.card-dark {
+  background: var(--bg-dark-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  color: var(--fg-inverse);
+}
+
+/* Icon container */
+.icon-box {
+  width: 48px; height: 48px;
+  background: var(--brand-primary);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white);
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.icon-box-teal { background: var(--teal-500); }
+.icon-box-light { background: var(--blue-100); color: var(--blue-600); }
+
+/* Section container */
+.section { padding: var(--space-20) var(--space-6); }
+.section-dark {
+  background: var(--bg-dark);
+  color: var(--fg-inverse);
+  padding: var(--space-20) var(--space-6);
+}
+.container { max-width: 1100px; margin: 0 auto; }

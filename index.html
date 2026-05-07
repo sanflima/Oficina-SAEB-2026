@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SAEB 2026 — Oficina PROFMAT / UNIVASF</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+/* ── Layout ───────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--bg-page); color: var(--fg-1); -webkit-font-smoothing: antialiased; }
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+/* ── Nav ──────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  height: 64px;
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 32px;
+}
+.nav-logos { display: flex; align-items: center; gap: 16px; }
+.nav-logos img { height: 38px; object-fit: contain; }
+.nav-sep { width: 1px; height: 32px; background: var(--border-subtle); }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--fg-2); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--brand-primary); }
+.nav-cta {
+  display: inline-flex; align-items: center;
+  background: var(--brand-primary); color: var(--white);
+  font-size: 13px; font-weight: 600;
+  padding: 9px 20px; border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: var(--shadow-btn);
+  transition: background .15s, transform .12s;
+}
+.nav-cta:hover { background: var(--brand-primary-hover); transform: translateY(-1px); }
+
+/* ── Hero ─────────────────────────────────── */
+.hero {
+  padding: 80px 0 64px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -120px; right: -120px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue-100); color: var(--brand-primary);
+  font-size: 13px; font-weight: 600;
+  padding: 5px 14px; border-radius: var(--radius-pill);
+  margin-bottom: 20px;
+}
+.hero-tag::before { content: '●'; font-size: 7px; }
+.hero h1 {
+  font-size: 3rem; font-weight: 800; line-height: 1.15;
+  color: var(--fg-1); margin-bottom: 16px;
+}
+.hero h1 .accent { color: var(--brand-primary); }
+.hero-sub {
+  font-size: 1.05rem; color: var(--fg-2); line-height: 1.65;
+  margin-bottom: 32px; max-width: 460px;
+}
+.hero-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--fg-1);
+}
+.chip::before { content: '✓'; color: var(--brand-primary); font-size: 11px; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Hero card */
+.hero-card {
+  background: var(--white);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(37,99,235,0.09);
+}
+.hero-card-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);
+}
+.hc-icon {
+  width: 42px; height: 42px; background: var(--brand-primary);
+  border-radius: var(--radius-md); display: flex; align-items: center;
+  justify-content: center; color: var(--white); font-size: 18px; flex-shrink: 0;
+}
+.hc-title { font-size: 15px; font-weight: 700; color: var(--fg-1); }
+.hc-sub { font-size: 12px; color: var(--fg-3); margin-top: 2px; }
+.hc-badge {
+  margin-left: auto; background: #dcfce7; color: #16a34a;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill);
+}
+.hc-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--gray-100);
+}
+.hc-row:last-child { border-bottom: none; }
+.hc-row-icon {
+  width: 34px; height: 34px; background: var(--blue-50);
+  border-radius: 8px; display: flex; align-items: center;
+  justify-content: center; font-size: 15px; flex-shrink: 0;
+}
+.hc-row-title { font-size: 13px; font-weight: 600; color: var(--fg-1); }
+.hc-row-sub { font-size: 11px; color: var(--fg-3); margin-top: 1px; }
+.hc-check { margin-left: auto; color: var(--brand-primary); font-size: 16px; font-weight: 700; }
+.hc-stat {
+  margin-top: 16px; padding: 12px 16px;
+  background: var(--blue-50); border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 600; color: var(--brand-primary); text-align: center;
+}
+
+/* ── Section Tags & Headers ───────────────── */
+.section-center { text-align: center; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue-100); color: var(--brand-primary);
+  font-size: 12px; font-weight: 600; padding: 4px 14px;
+  border-radius: var(--radius-pill); margin-bottom: 16px;
+  letter-spacing: .02em;
+}
+.section-tag::before { content: '●'; font-size: 7px; }
+.section-tag.teal { background: var(--teal-100); color: var(--teal-600); }
+.section-title { font-size: 2.1rem; font-weight: 800; line-height: 1.2; color: var(--fg-1); margin-bottom: 12px; }
+.section-title .accent { color: var(--brand-primary); }
+.section-title .accent-teal { color: var(--brand-teal); }
+.section-desc { font-size: 1rem; color: var(--fg-2); line-height: 1.65; max-width: 540px; margin: 0 auto; }
+
+/* ── Cards Grid ───────────────────────────── */
+.section-light { padding: 88px 0; background: var(--white); }
+.section-tint { padding: 88px 0; background: var(--bg-page); }
+.cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+.feature-card {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow .2s, transform .2s;
+}
+.feature-card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-2px); }
+.fc-icon {
+  width: 46px; height: 46px; background: var(--brand-primary);
+  border-radius: var(--radius-md); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; margin-bottom: 14px; color: var(--white);
+}
+.fc-icon.teal { background: var(--brand-teal); }
+.fc-label { font-size: 10px; font-weight: 700; color: var(--brand-primary); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
+.fc-label.teal { color: var(--brand-teal); }
+.fc-title { font-size: 1rem; font-weight: 700; color: var(--fg-1); margin-bottom: 8px; }
+.fc-desc { font-size: .875rem; color: var(--fg-2); line-height: 1.6; }
+.fc-list { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.fc-list li { font-size: .8125rem; color: var(--fg-2); display: flex; align-items: center; gap: 7px; }
+.fc-list li::before { content: '◦'; color: var(--brand-primary); font-size: 12px; }
+.fc-link { margin-top: 16px; display: flex; align-items: center; gap: 5px; font-size: .875rem; font-weight: 600; color: var(--brand-primary); text-decoration: none; }
+.fc-link:hover { text-decoration: underline; }
+
+/* ── Dark Section ─────────────────────────── */
+.section-dark { padding: 88px 0; background: var(--navy-900); }
+.section-dark .section-title { color: var(--white); }
+.section-dark .section-desc { color: rgba(255,255,255,0.65); }
+.section-dark .section-tag { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
+.section-dark .section-tag::before { content: '●'; }
+.dark-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.dark-card {
+  background: var(--navy-800); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg); padding: 24px;
+  box-shadow: 0 28px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.dark-card:hover { background: var(--navy-700); }
+.dc-num { font-size: 1.75rem; font-weight: 800; color: var(--brand-primary); margin-bottom: 8px; }
+.dc-title { font-size: .95rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.dc-desc { font-size: .8125rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+/* ── Two-col feature ──────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-top: 0; padding: 88px 0; background: var(--white); }
+.tcol-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-100); color: var(--brand-primary); font-size: 12px; font-weight: 600; padding: 4px 14px; border-radius: var(--radius-pill); margin-bottom: 16px; }
+.tcol-tag::before { content: '●'; font-size: 7px; }
+.tcol-title { font-size: 1.85rem; font-weight: 800; line-height: 1.2; color: var(--fg-1); margin-bottom: 14px; }
+.tcol-title .accent { color: var(--brand-primary); }
+.tcol-desc { font-size: .9375rem; color: var(--fg-2); line-height: 1.7; margin-bottom: 24px; }
+.tcol-quote {
+  background: var(--navy-900); color: var(--white);
+  border-radius: var(--radius-lg); padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.card-blue:hover { border-color: rgba(96,165,250,.55); background: rgba(37,99,235,.22); }
+.feat-list { display: flex; flex-direction: column; gap: 10px; }
+.feat-item { display: flex; align-items: center; gap: 10px; font-size: .875rem; font-weight: 600; color: var(--fg-1); }
+.feat-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand-primary); flex-shrink: 0; }
+.feat-dot.teal { background: var(--brand-teal); }
+
+.card-teal:hover      { border-color: rgba(43,181,192,.55); background: rgba(26,158,168,.22); }
+.rg-card {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); padding: 18px;
+  box-shadow: var(--shadow-card);
+}
+.rg-icon { font-size: 22px; margin-bottom: 8px; }
+.rg-title { font-size: .875rem; font-weight: 700; color: var(--fg-1); margin-bottom: 4px; }
+.rg-desc { font-size: .75rem; color: var(--fg-3); line-height: 1.5; }
+.card-gold:hover      { border-color: rgba(251,191,36,.55); background: rgba(245,158,11,.20); }
+/* ── Instructors ──────────────────────────── */
+.instructors { padding: 88px 0; background: var(--bg-page); }
+.inst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+.inst-card {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); padding: 24px;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.inst-avatar {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-600), var(--teal-500));
+  display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-size: 22px; font-weight: 800;
+  margin-bottom: 12px; flex-shrink: 0;
+  object-fit: cover; overflow: hidden;
+}
+img.inst-avatar { display: block; }
+.inst-name { font-size: .9375rem; font-weight: 700; color: var(--fg-1); margin-bottom: 2px; }
+.inst-role { font-size: .8125rem; color: var(--brand-primary); font-weight: 600; margin-bottom: 6px; }
+.inst-bio { font-size: .8125rem; color: var(--fg-2); line-height: 1.55; }
+
+/* ── CTA Banner ───────────────────────────── */
+.cta-section { padding: 64px 0; background: var(--white); }
+.cta-banner {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl); padding: 48px 56px;
+  box-shadow: 0 4px 24px rgba(37,99,235,0.09);
+  display: flex; align-items: center; justify-content: space-between; gap: 40px;
+}
+.cta-left h2 { font-size: 1.75rem; font-weight: 800; color: var(--fg-1); margin-bottom: 8px; }
+.cta-left h2 .accent { color: var(--brand-primary); }
+.cta-left p { font-size: .9375rem; color: var(--fg-2); }
+.cta-right { display: flex; gap: 12px; flex-shrink: 0; }
+.inscricao-layout {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 28px; align-items: stretch;
+}
+.inscricao-panel {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl); padding: 32px;
+  box-shadow: 0 4px 24px rgba(37,99,235,0.08);
+}
+.inscricao-panel h2 {
+  font-size: 1.75rem; font-weight: 800; line-height: 1.25;
+  color: var(--fg-1); margin-bottom: 10px;
+}
+.inscricao-panel h2 .accent { color: var(--brand-primary); }
+.inscricao-panel p { font-size: .9375rem; color: var(--fg-2); line-height: 1.65; }
+.inscricao-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.inscricao-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-top: 26px;
+}
+.inscricao-stat {
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+  padding: 14px; background: var(--gray-50);
+}
+.inscricao-stat strong { display: block; font-size: 1.1rem; color: var(--fg-1); margin-bottom: 2px; }
+.inscricao-stat span { font-size: .75rem; color: var(--fg-3); font-weight: 600; }
+.inscricao-checklist {
+  background: linear-gradient(180deg, var(--blue-50), var(--white));
+  border: 1px solid var(--border-card); border-radius: var(--radius-xl);
+  padding: 28px; box-shadow: var(--shadow-card);
+}
+.inscricao-checklist h3 { margin-bottom: 16px; color: var(--fg-1); }
+.inscricao-checklist ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.inscricao-checklist li { display: flex; align-items: flex-start; gap: 10px; font-size: .875rem; color: var(--fg-2); line-height: 1.45; }
+.inscricao-checklist li::before {
+  content: '✓'; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--brand-primary); color: var(--white);
+  font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+.inscricao-note {
+  margin-top: 18px; padding: 12px 14px; border-radius: var(--radius-md);
+  background: #dcfce7; color: #166534; font-size: .8125rem; font-weight: 700;
+}
+
+/* Inscricao modal */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 300;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(15,23,42,.48); padding: 24px;
+}
+.modal-backdrop.is-open { display: flex; }
+.modal-dialog {
+  width: min(720px, 100%); max-height: min(92vh, 760px); overflow: auto;
+  background: var(--white); border-radius: var(--radius-xl);
+  box-shadow: 0 24px 80px rgba(15,23,42,.28);
+}
+.modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 24px 28px 18px; border-bottom: 1px solid var(--border-subtle);
+}
+.modal-kicker { font-size: .75rem; font-weight: 800; color: var(--brand-primary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.modal-title { font-size: 1.35rem; font-weight: 800; color: var(--fg-1); }
+.modal-close {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-subtle);
+  background: var(--white); color: var(--fg-2); cursor: pointer; font-size: 22px;
+  line-height: 1; transition: background .15s, color .15s;
+}
+.modal-close:hover { background: var(--blue-50); color: var(--brand-primary); }
+.inscricao-form { padding: 24px 28px 28px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 7px; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label { font-size: .8125rem; font-weight: 700; color: var(--fg-1); }
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%; border: 1.5px solid var(--border-subtle); border-radius: var(--radius-md);
+  padding: 12px 13px; font: inherit; font-size: .9rem; color: var(--fg-1);
+  background: var(--white); outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.form-field textarea { min-height: 92px; resize: vertical; }
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--brand-primary); box-shadow: 0 0 0 4px rgba(37,99,235,.1);
+}
+.form-hint { font-size: .75rem; color: var(--fg-3); line-height: 1.45; }
+.form-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-subtle);
+}
+.form-footer p { font-size: .78rem; color: var(--fg-3); line-height: 1.45; }
+button.btn-primary, button.btn-outline { cursor: pointer; font-family: inherit; }
+
+/* ── Footer ───────────────────────────────── */
+footer { background: var(--navy-900); padding: 56px 0 32px; }
+.footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand img { height: 36px; object-fit: contain; margin-bottom: 12px; }
+.footer-brand p { font-size: .8125rem; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 260px; }
+.footer-col h4 { font-size: .8125rem; font-weight: 700; color: var(--white); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .06em; }
+.footer-col a { display: block; font-size: .8125rem; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 8px; transition: color .15s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+.footer-bottom p { font-size: .75rem; color: rgba(255,255,255,0.35); }
+.footer-logos { display: flex; gap: 12px; align-items: center; }
+.footer-logos img { height: 24px; object-fit: contain; filter: brightness(0) invert(1); opacity: .5; }
+
+/* ── Buttons ──────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--brand-primary); color: var(--white);
+  font-size: .9375rem; font-weight: 600;
+  padding: 11px 24px; border-radius: var(--radius-pill);
+  text-decoration: none; border: 2px solid var(--brand-primary);
+  box-shadow: var(--shadow-btn);
+  transition: background .15s, transform .12s, border-color .15s;
+}
+.btn-primary:hover {
+  background: var(--brand-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--brand-primary);
+  font-size: .9375rem; font-weight: 600;
+  padding: 11px 24px; border-radius: var(--radius-pill);
+  text-decoration: none; border: 2px solid var(--brand-primary);
+}
+.btn-outline:hover {
+  background: var(--blue-50);
+  transform: translateY(-1px);
+}
+
+/* ── Form extras ──────────────────────────── */
+.form-field input.invalid,
+.form-field select.invalid { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+.range-wrap { display: flex; flex-direction: column; gap: 6px; }
+.range-wrap input[type=range] { width: 100%; accent-color: var(--brand-primary); cursor: pointer; }
+.range-labels { display: flex; justify-content: space-between; font-size: .75rem; color: var(--fg-3); }
+.range-labels strong { color: var(--brand-primary); font-size: .875rem; font-weight: 700; }
+.form-success { text-align: center; padding: 48px 28px 40px; }
+.form-success .success-icon {
+  width: 64px; height: 64px; background: #dcfce7; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #16a34a; margin: 0 auto 16px;
+}
+.form-success h3 { font-size: 1.35rem; font-weight: 800; color: var(--fg-1); margin-bottom: 8px; }
+.form-success p { color: var(--fg-2); font-size: .9375rem; line-height: 1.65; }
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 1024px) {
+  .cards-grid, .dark-cards { grid-template-columns: repeat(2, 1fr); }
+  .hero-inner, .two-col, .footer-inner, .inscricao-layout { grid-template-columns: 1fr; gap: 40px; }
+  .cta-banner { flex-direction: column; text-align: center; }
+  .nav-links { gap: 16px; font-size: 12px; }
+  .hero h1 { font-size: 2.2rem; }
+  .section-title { font-size: 1.75rem; }
+}
+@media (max-width: 640px) {
+  .container { padding: 0 16px; }
+  .cards-grid, .dark-cards, .inst-grid, .right-grid { grid-template-columns: 1fr; }
+  .hero-chips { flex-direction: column; }
+  .nav-links { display: none; }
+  .hero h1 { font-size: 1.75rem; }
+  .section-title { font-size: 1.4rem; }
+  .hero-inner { gap: 32px; }
+  .hero-card { display: none; }
+  .inscricao-panel, .inscricao-checklist { padding: 22px; }
+  .inscricao-summary, .form-grid { grid-template-columns: 1fr; }
+  .modal-backdrop { padding: 10px; align-items: flex-end; }
+  .modal-dialog { max-height: 94vh; border-radius: 20px 20px 0 0; }
+  .modal-header, .inscricao-form { padding-left: 20px; padding-right: 20px; }
+  .form-footer { flex-direction: column; align-items: stretch; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logos">
+      <img src="assets/logo-profmat.png" alt="PROFMAT">
+      <div class="nav-sep"></div>
+      <img src="assets/logo-univasf.png" alt="UNIVASF">
+    </div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#programa">Programa</a>
+      <a href="#metodologia">Metodologia</a>
+      <a href="#instrutores">Instrutores</a>
+    </div>
+    <a href="#inscricao" class="nav-cta js-open-inscricao">Inscreva-se</a>
+  </div>
+</nav>
+
+    <!-- Quiz A -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Oficina SAEB 2025</div>
+        <h1>Aprenda a <span class="accent">interpretar</span> os resultados do SAEB</h1>
+        <p class="hero-sub">Formação prática para professores de matemática do ensino básico — análise de desempenho, matrizes de referência e estratégias pedagógicas baseadas em dados.</p>
+        <div class="hero-chips">
+          <div class="chip">Certificado incluso</div>
+          <div class="chip">100% gratuito</div>
+          <div class="chip">Vagas limitadas</div>
+        </div>
+        <div class="hero-btns">
+          <a href="#inscricao" class="btn-primary js-open-inscricao">Garantir minha vaga</a>
+          <a href="#programa" class="btn-outline">Ver programa completo</a>
+        </div>
+      </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hc-icon">📊</div>
+          <div>
+            <div class="hc-title">Oficina SAEB 2025</div>
+            <div class="hc-sub">Programa estruturado e orientado</div>
+          </div>
+          <div class="hc-badge">Inscrições abertas</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-icon">📊</div>
+          <div>
+            <div class="hc-row-title">Análise de Resultados</div>
+            <div class="hc-row-sub">Interpretação dos microdados do SAEB</div>
+          </div>
+          <div class="hc-check">✓</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-icon">📐</div>
+          <div>
+            <div class="hc-row-title">Matrizes de Referência</div>
+            <div class="hc-row-sub">Mapeamento das competências avaliadas</div>
+          </div>
+          <div class="hc-check">✓</div>
+        </div>
+        <div class="hc-row">
+          <div class="hc-row-icon">📝</div>
+          <div>
+            <div class="hc-row-title">Práticas Pedagógicas</div>
+            <div class="hc-row-sub">Estratégias baseadas em evidências</div>
+          </div>
+          <div class="hc-check">✓</div>
+        </div>
+        <div class="hc-stat">+120 professores já participaram das edições anteriores</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARDS SECTION -->
+<section class="section-light" id="programa">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-tag">O que você vai aprender</div>
+      <h2 class="section-title">Conteúdo <span class="accent">completo</span> e prático</h2>
+      <p class="section-desc">Cada módulo foi desenhado para que você saia com conhecimento aplicável em sala de aula imediatamente.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="feature-card">
+        <div class="fc-icon">📊</div>
+        <div class="fc-label">Módulo 1</div>
+        <div class="fc-title">Fundamentos do SAEB</div>
+        <div class="fc-desc">Entenda a estrutura, os objetivos e as escalas de proficiência da avaliação em larga escala.</div>
+        <ul class="fc-list">
+          <li>História e evolução do SAEB</li>
+          <li>Escalas de proficiência</li>
+          <li>Níveis de desempenho</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon teal">📐</div>
+        <div class="fc-label teal">Módulo 2</div>
+        <div class="fc-title">Matrizes de Referência</div>
+        <div class="fc-desc">Estudo detalhado das habilidades e competências presentes nas matrizes de matemática.</div>
+        <ul class="fc-list">
+          <li>Descritores do 5º e 9º anos</li>
+          <li>Análise por eixo temático</li>
+          <li>Mapeamento curricular</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📋</div>
+        <div class="fc-label">Módulo 3</div>
+        <div class="fc-title">Interpretação de Dados</div>
+        <div class="fc-desc">Aprenda a ler os boletins de resultado e transformar dados em ações pedagógicas concretas.</div>
+        <ul class="fc-list">
+          <li>Leitura dos microdados</li>
+          <li>Comparativos históricos</li>
+          <li>Diagnóstico de turma</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon" style="background:var(--teal-600)">🏫</div>
+        <div class="fc-label" style="color:var(--teal-600)">Módulo 4</div>
+        <div class="fc-title">Estratégias Pedagógicas</div>
+        <div class="fc-desc">Metodologias de ensino alinhadas aos descritores e à realidade das escolas públicas.</div>
+        <ul class="fc-list">
+          <li>Sequências didáticas</li>
+          <li>Resolução de problemas</li>
+          <li>Avaliação formativa</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon" style="background:var(--navy-800)">🔬</div>
+        <div class="fc-label" style="color:var(--navy-800)">Módulo 5</div>
+        <div class="fc-title">Pesquisa em Educação</div>
+        <div class="fc-desc">Introdução à pesquisa quantitativa aplicada ao contexto da avaliação educacional.</div>
+        <ul class="fc-list">
+          <li>Uso do R para análise</li>
+          <li>Indicadores educacionais</li>
+          <li>Comunicação de resultados</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon" style="background:var(--gold-500)">🏆</div>
+        <div class="fc-label" style="color:var(--gold-500)">Módulo 6</div>
+        <div class="fc-title">Projeto Final</div>
+        <div class="fc-desc">Elabore um plano de intervenção pedagógica baseado nos resultados da sua escola.</div>
+        <ul class="fc-list">
+          <li>Diagnóstico da escola</li>
+          <li>Plano de ação</li>
+          <li>Apresentação e certificação</li>
+        </ul>
+        <a href="#" class="fc-link">Ver detalhes →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DARK SECTION — METHODOLOGY -->
+<section class="section-dark" id="metodologia">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-tag">Nossa Metodologia</div>
+      <h2 class="section-title">Como funciona a <span style="color:var(--blue-400)">Oficina SAEB</span></h2>
+      <p class="section-desc" style="color:rgba(255,255,255,0.6)">Um percurso estruturado, com orientação completa em cada etapa da formação.</p>
+    </div>
+    <div class="dark-cards">
+      <div class="dark-card"><div class="dc-num">01</div><div class="dc-title">Diagnóstico Inicial</div><div class="dc-desc">Levantamento do contexto da sua escola e identificação das principais dificuldades</div></div>
+      <div class="dark-card"><div class="dc-num">02</div><div class="dc-title">Formação Teórica</div><div class="dc-desc">Módulos expositivos com especialistas do PROFMAT/UNIVASF sobre avaliação em larga escala</div></div>
+      <div class="dark-card"><div class="dc-num">03</div><div class="dc-title">Análise de Dados</div><div class="dc-desc">Oficinas práticas de interpretação dos microdados do SAEB com uso de ferramentas digitais</div></div>
+      <div class="dark-card"><div class="dc-num">04</div><div class="dc-title">Construção Didática</div><div class="dc-desc">Elaboração de sequências de ensino alinhadas aos descritores das matrizes de referência</div></div>
+      <div class="dark-card"><div class="dc-num">05</div><div class="dc-title">Aplicação em Sala</div><div class="dc-desc">Implementação supervisada das strategias desenvolvidas com seu alunos</div></div>
+      <div class="dark-card"><div class="dc-num">06</div><div class="dc-title">Avaliação e Certificação</div><div class="dc-desc">Apresentação do projeto final e emissão do certificado pela UNIVASF</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTRUCTORS -->
+<section class="instructors" id="instrutores">
+  <div class="container">
+    <div class="section-center">
+      <div class="section-tag teal">Quem vai ensinar</div>
+      <h2 class="section-title">Instrutores <span class="accent-teal">especializados</span></h2>
+      <p class="section-desc">Professores pesquisadores do PROFMAT/UNIVASF com experiência em avaliação educacional e ensino de matemática.</p>
+    </div>
+    <div class="inst-grid">
+      <div class="inst-card">
+        <img class="inst-avatar" src="assets/sandro.png" alt="Prof. Esp. Sandro Ferreira de Lima">
+        <div class="inst-name">Prof. Esp. Sandro Ferreira de Lima</div>
+        <div class="inst-role">Coordenador EAD — IFBAIANO Campus Senhor do Bonfim</div>
+        <div class="inst-bio">Especialista em Metodologia do Ensino da Matemática pela UNEB.</div>
+      </div>
+      <div class="inst-card">
+        <img class="inst-avatar" src="assets/alexandre.png" alt="Prof. Alexandre Gomes Cavalcante">
+        <div class="inst-name">Prof. Alexandre Gomes Cavalcante</div>
+        <div class="inst-role">Professor — Escola Eduardo Coelho</div>
+        <div class="inst-bio">Graduado em Matemática pela UPE.</div>
+      </div>
+      <div class="inst-card">
+        <img class="inst-avatar" src="assets/daniel.png" alt="Prof. Danielo Martins dos Santos">
+        <div class="inst-name">Prof. Danielo Martins dos Santos</div>
+        <div class="inst-role">Professor — Escola Estadual Dom Antônio Campelo</div>
+        <div class="inst-bio">Licenciado em Matemática pela Uniftc. Também atua no Colégio Estadual Pedro Moreyra Rego.</div>
+      </div>
+      <div class="inst-card">
+        <img class="inst-avatar" src="assets/raquel.png" alt="Prof.ª Raquel da Silva Araujo Brito">
+        <div class="inst-name">Prof.ª Raquel da Silva Araujo Brito</div>
+        <div class="inst-role">Professora — EREM Anísio Veras (Rede Estadual de PE)</div>
+        <div class="inst-bio">Especialista em Matemática, suas tecnologias e o mundo do trabalho — IFPI.</div>
+      </div>
+      <div class="inst-card">
+        <img class="inst-avatar" src="assets/maike.png" alt="Prof. Maike Oliveira Santos">
+        <div class="inst-name">Prof. Maike Oliveira Santos</div>
+        <div class="inst-role">Professor — Escola Municipal Prof.ª Graciosa Xavier Ramos Gomes</div>
+        <div class="inst-bio">Especialista em Educação, Contemporaneidades e Novas Tecnologias — UNIVASF.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO-COL FEATURE -->
+<section id="sobre">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <div class="tcol-tag">Nossa atuação</div>
+        <h2 class="tcol-title">Mais <span class="accent">clareza</span> em cada dado do SAEB</h2>
+        <p class="tcol-desc">Evitamos interpretações superficiais e reduzimos incertezas ao analisar cada indicador com atenção ao contexto pedagógico da sua escola.</p>
+        <div class="tcol-quote">Você não precisa entender os resultados do SAEB sozinho. Antecipamos os pontos críticos para que você avance com segurança e propósito.</div>
+        <div class="feat-list">
+          <div class="feat-item"><div class="feat-dot"></div>Análise contextualizada dos resultados</div>
+          <div class="feat-item"><div class="feat-dot"></div>Formação com pesquisadores do PROFMAT</div>
+          <div class="feat-item"><div class="feat-dot teal"></div>Apoio da UNIVASF em todo o processo</div>
+          <div class="feat-item"><div class="feat-dot teal"></div>Certificação acadêmica reconhecida</div>
+        </div>
+      </div>
+      <div class="right-grid">
+        <div class="rg-card"><div class="rg-icon">📊</div><div class="rg-title">Análise de Resultados</div><div class="rg-desc">Interpretação dos boletins e microdados do SAEB</div></div>
+        <div class="rg-card"><div class="rg-icon">📐</div><div class="rg-title">Matrizes Mapeadas</div><div class="rg-desc">Todos os descritores de matemática detalhados</div></div>
+        <div class="rg-card"><div class="rg-icon">🎓</div><div class="rg-title">Formação Certificada</div><div class="rg-desc">Certificado emitido pela UNIVASF com carga horária</div></div>
+        <div class="rg-card"><div class="rg-icon">🤝</div><div class="rg-title">Suporte Contínuo</div><div class="rg-desc">Acompanhamento durante toda a oficina</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="inscricao">
+  <div class="container">
+    <div class="cta-banner">
+      <div class="cta-left">
+        <h2>Garanta sua vaga na <span class="accent">Oficina<br>SAEB 2025</span></h2>
+        <p>Inscrições gratuitas e limitadas. Certificado emitido pela UNIVASF ao final do programa.</p>
+      </div>
+      <div class="cta-right">
+        <a href="#" class="btn-primary js-open-inscricao" style="font-size:1rem;padding:13px 28px">Inscreva-se agora</a>
+        <a href="#" class="btn-outline" style="font-size:1rem;padding:13px 28px">Saiba mais</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <p>Universidade Federal do Vale do São Francisco — Programa de Mestrado Profissional em Matemática (PROFMAT).</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="#">Sobre a Oficina</a>
+        <a href="#">Programa</a>
+        <a href="#">Metodologia</a>
+        <a href="#">Instrutores</a>
+        <a href="#">Inscrição</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="#">profmat@univasf.edu.br</a>
+        <a href="#">(87) 0000-0000</a>
+        <a href="#">Petrolina, PE</a>
+      </div>
+      <div class="footer-col">
+        <h4>Institucional</h4>
+        <a href="#">PROFMAT Nacional</a>
+        <a href="#">UNIVASF</a>
+        <a href="#">INEP / SAEB</a>
+        <a href="#">Políticas</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 PROFMAT / UNIVASF — Todos os direitos reservados</p>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL DE INSCRIÇÃO -->
+<div class="modal-backdrop" id="modal-inscricao" role="dialog" aria-modal="true" aria-labelledby="modal-title-id">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <div>
+        <div class="modal-kicker">Inscrição Gratuita · Vagas Limitadas</div>
+        <div class="modal-title" id="modal-title-id">Formulário de Inscrição — Oficina SAEB 2025</div>
+      </div>
+      <button class="modal-close js-close-modal" aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="inscricao-form" id="modal-form-wrap">
+      <form id="form-inscricao" class="form-grid" novalidate>
+
+        <div class="form-field">
+          <label for="f-nome">Nome completo <span style="color:#ef4444">*</span></label>
+          <input type="text" id="f-nome" name="nome" placeholder="Seu nome completo" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="f-email">E-mail <span style="color:#ef4444">*</span></label>
+          <input type="email" id="f-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+        </div>
+
+        <div class="form-field">
+          <label for="f-tel">Telefone / WhatsApp</label>
+          <input type="tel" id="f-tel" name="telefone" placeholder="(87) 9 0000-0000" autocomplete="tel">
+        </div>
+        <div class="form-field">
+          <label for="f-municipio">Município / UF</label>
+          <input type="text" id="f-municipio" name="municipio" placeholder="Ex: Petrolina, PE">
+        </div>
+
+        <div class="form-field full">
+          <label for="f-escola">Nome da Escola</label>
+          <input type="text" id="f-escola" name="escola" placeholder="Escola onde você atua">
+        </div>
+
+        <div class="form-field">
+          <label for="f-rede">Rede de Ensino</label>
+          <select id="f-rede" name="rede">
+            <option value="">Selecione…</option>
+            <option>Municipal</option>
+            <option>Estadual</option>
+            <option>Federal</option>
+            <option>Privada</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="f-cargo">Função / Cargo</label>
+          <select id="f-cargo" name="cargo">
+            <option value="">Selecione…</option>
+            <option>Professor</option>
+            <option>Coordenador Pedagógico</option>
+            <option>Diretor Escolar</option>
+            <option>Técnico</option>
+            <option>Outro</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="f-nivel">Nível de Ensino</label>
+          <select id="f-nivel" name="nivel">
+            <option value="">Selecione…</option>
+            <option>Ensino Fundamental I (1º ao 5º ano)</option>
+            <option>Ensino Fundamental II (6º ao 9º ano)</option>
+            <option>Ensino Médio</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="f-familiar">Familiaridade com o SAEB</label>
+          <div class="range-wrap">
+            <input type="range" id="f-familiar" name="familiaridade" min="1" max="5" value="3">
+            <div class="range-labels">
+              <span>1 – Pouca</span>
+              <strong id="range-val">3</strong>
+              <span>5 – Alta</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field full">
+          <label for="f-expect">Expectativas sobre a oficina</label>
+          <textarea id="f-expect" name="expectativas" placeholder="O que você espera aprender ou desenvolver com a oficina?"></textarea>
+        </div>
+
+        <div class="form-footer full">
+          <p>Ao se inscrever, você concorda com o uso dos dados para organização da oficina.</p>
+          <button type="submit" class="btn-primary" id="btn-submit">Confirmar inscrição</button>
+        </div>
+
+      </form>
+
+      <div class="form-success" id="form-success" style="display:none">
+        <div class="success-icon">✓</div>
+        <h3>Inscrição enviada com sucesso!</h3>
+        <p>Em breve você receberá a confirmação no e-mail informado.<br>Boas-vindas à Oficina SAEB 2025!</p>
+        <a href="oficina.html" class="btn-primary" style="margin-top:24px;font-size:1rem;padding:13px 32px">
+          Entrar na Oficina →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var SHEET_URL = 'https://script.google.com/macros/s/AKfycbx7CXmR44-8LO43iwf7pAfvGeJP4CMF62kG1McDq-kXleftunneciNUpylSGon68eAEmw/exec';
+
+    /* ── Modal open / close ── */
+    var backdrop = document.getElementById('modal-inscricao');
+
+    function openModal() {
+      backdrop.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.js-open-inscricao').forEach(function (el) {
+      el.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
+    });
+    document.querySelectorAll('.js-close-modal').forEach(function (el) {
+      el.addEventListener('click', closeModal);
+    });
+    backdrop.addEventListener('click', function (e) {
+      if (e.target === backdrop) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    /* ── Range label ── */
+    var rangeInput = document.getElementById('f-familiar');
+    var rangeVal   = document.getElementById('range-val');
+    rangeInput.addEventListener('input', function () { rangeVal.textContent = rangeInput.value; });
+
+    /* ── Remove invalid highlight on typing ── */
+    ['f-nome', 'f-email'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', function () {
+        this.classList.remove('invalid');
+      });
+    });
+
+    /* ── Form submission → Google Sheets ── */
+    var form      = document.getElementById('form-inscricao');
+    var btnSubmit = document.getElementById('btn-submit');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var nome  = document.getElementById('f-nome').value.trim();
+      var email = document.getElementById('f-email').value.trim();
+      var valid = true;
+
+      if (!nome)  { document.getElementById('f-nome').classList.add('invalid');  valid = false; }
+      if (!email) { document.getElementById('f-email').classList.add('invalid'); valid = false; }
+      if (!valid) return;
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = 'Enviando…';
+
+      var data = {
+        nome:          nome,
+        email:         email,
+        telefone:      document.getElementById('f-tel').value.trim(),
+        municipio:     document.getElementById('f-municipio').value.trim(),
+        escola:        document.getElementById('f-escola').value.trim(),
+        rede:          document.getElementById('f-rede').value,
+        cargo:         document.getElementById('f-cargo').value,
+        nivel:         document.getElementById('f-nivel').value,
+        familiaridade: rangeInput.value,
+        expectativas:  document.getElementById('f-expect').value.trim()
+      };
+
+      var fd = new FormData();
+      Object.keys(data).forEach(function (k) { fd.append(k, data[k]); });
+
+      fetch(SHEET_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        body:   fd
+      })
+      .then(function () {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      })
+      .catch(function () {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Confirmar inscrição';
+        alert('Erro ao enviar. Verifique sua conexão e tente novamente.');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Roteiro da Oficina – Planejamento Completo</title>
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Fixed Background ── */
+    .bg-fixed {
+      position: fixed; inset: 0; z-index: -2;
+      background: url('assets/img2.jpeg') center/cover no-repeat;
+    }
+    .bg-overlay {
+      position: fixed; inset: 0; z-index: -1;
+      background: rgba(0, 0, 0, 0.50);
+    }
+
+    /* ── Base ── */
+    body {
+      font-family: var(--font-sans);
+      color: var(--gray-800);
+      font-size: 15px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .w {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Top Nav ── */
+    .doc-nav {
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 20px 0 24px;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 14px; font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      padding: 11px 24px; border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--blue-400), var(--blue-500));
+      border: none;
+      box-shadow: 0 4px 18px rgba(96,165,250,.5);
+      transition: transform .15s, box-shadow .15s, background .15s;
+      letter-spacing: .01em;
+    }
+    .back-link:hover {
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37,99,235,.55);
+    }
+    .back-link::before { content: '←'; font-size: 16px; transition: transform .15s; }
+    .back-link:hover::before { transform: translateX(-3px); }
+
+    /* ── Print Button ── */
+    .pb {
+      background: var(--brand-primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 8px 20px;
+      font-size: .88rem; font-weight: 600;
+      cursor: pointer; float: right;
+      font-family: var(--font-sans);
+      transition: background .15s;
+    }
+    .pb:hover { background: var(--brand-primary-hover); }
+
+    /* ── Doc Header ── */
+    header {
+      background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-500) 55%, var(--blue-700) 100%);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px 40px 36px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 40px rgba(37,99,235,.55), 0 2px 8px rgba(0,0,0,.2);
+      border: 1px solid rgba(255,255,255,.15);
+      text-align: center;
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; margin-bottom: 10px; letter-spacing: -.02em;
+      text-shadow: 0 2px 20px rgba(0,0,0,.3);
+    }
+    header p {
+      font-size: 1rem; line-height: 1.6;
+      color: rgba(255,255,255,.9);
+      text-shadow: 0 1px 6px rgba(0,0,0,.2);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: var(--radius-pill);
+      padding: 5px 16px;
+      font-size: .82rem; font-weight: 700;
+      margin-top: 14px;
+      text-shadow: none;
+    }
+
+    /* ── Section Cards ── */
+    .s {
+      background: rgba(255,255,255,.97);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 28px rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .st {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--navy-900);
+      border-left: 4px solid var(--brand-primary);
+      padding-left: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Tables ── */
+    table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    th {
+      background: var(--navy-800);
+      color: var(--white);
+      padding: 8px 12px;
+      text-align: left;
+      font-size: .85rem; font-weight: 700;
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: .88rem;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--gray-50); }
+    .lc {
+      background: var(--blue-100);
+      font-weight: 600;
+      color: var(--navy-900);
+      width: 36%;
+    }
+
+    /* ── Lists ── */
+    ul, ol { padding-left: 18px; }
+    li { margin-bottom: 6px; line-height: 1.55; }
+
+    /* ── Step markers ── */
+    .en {
+      background: var(--brand-primary);
+      color: var(--white);
+      border-radius: 50%;
+      width: 26px; height: 26px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .82rem; flex-shrink: 0;
+    }
+    .er {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px; border-radius: 8px; margin-bottom: 10px;
+    }
+    .er:nth-child(odd) { background: var(--gray-50); }
+    .eb { flex: 1; }
+    .et { font-weight: 700; color: var(--navy-900); margin-bottom: 3px; font-size: .92rem; }
+    .ed { color: var(--gray-600); font-size: .86rem; line-height: 1.55; }
+    .tb {
+      background: var(--blue-100);
+      color: var(--navy-900);
+      border-radius: 8px;
+      padding: 3px 10px;
+      font-weight: 700; font-size: .82rem;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── Oc / Av / Ri ── */
+    .oc {
+      background: var(--blue-50);
+      border-left: 3px solid var(--brand-primary);
+      border-radius: 6px;
+      padding: 10px 14px; margin-bottom: 7px;
+      font-size: .88rem; line-height: 1.55;
+    }
+    .av {
+      background: #fef3c7;
+      border: 1px solid var(--gold-500);
+      border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 10px;
+      font-size: .88rem; color: #78350f;
+    }
+    .ri {
+      background: var(--gray-50);
+      border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 6px;
+      font-size: .85rem; color: var(--gray-600); font-style: italic;
+    }
+
+    /* ── Quest Boxes ── */
+    .quest-box {
+      background: var(--gray-50);
+      border: 2px solid var(--brand-primary);
+      border-radius: 10px;
+      padding: 20px; margin: 14px 0;
+    }
+    .quest-box h4 { color: var(--brand-primary); margin-bottom: 10px; font-size: .95rem; }
+    .quest-alt { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin: 10px 0; }
+    .quest-alt label { font-size: .88rem; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+    .quest-alt label:hover { background: var(--blue-100); }
+
+    /* ── Fichas ── */
+    .ficha {
+      border: 2px dashed var(--gray-400);
+      border-radius: 10px;
+      padding: 20px; margin: 14px 0;
+      background: #fffdf7;
+    }
+    .ficha h4 {
+      color: var(--navy-900); margin-bottom: 10px;
+      font-size: .95rem; display: flex; align-items: center; gap: 8px;
+    }
+    .ficha .campo { border-bottom: 1px solid var(--gray-300); padding: 10px 0; min-height: 50px; }
+    .ficha .campo-label { font-weight: 600; color: var(--gray-600); font-size: .85rem; margin-bottom: 4px; }
+
+    /* ── Activity Highlights ── */
+    .ativ-destaque {
+      background: linear-gradient(135deg, var(--blue-50), var(--blue-100));
+      border-radius: 10px;
+      padding: 20px; margin: 14px 0;
+      border: 1px solid var(--blue-200);
+    }
+    .ativ-destaque h4 { color: var(--navy-900); margin-bottom: 8px; }
+
+    /* ── Nivel Cards ── */
+    .nivel-card {
+      display: grid; grid-template-columns: 100px 1fr;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px; overflow: hidden; margin: 8px 0;
+    }
+    .nivel-card .nv {
+      background: var(--navy-800); color: var(--white);
+      padding: 10px; font-weight: 700; font-size: .85rem;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+    }
+    .nivel-card .nd { padding: 10px 14px; font-size: .84rem; line-height: 1.5; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,.35);
+      font-size: .8rem;
+      padding: 20px 0 8px;
+    }
+
+    /* ── Print ── */
+    @media print {
+      .bg-fixed, .bg-overlay { display: none; }
+      body { background: #fff; color: #000; }
+      .w { padding: 0 16px; }
+      .doc-nav { display: none; }
+      .s { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; background: #fff; }
+      header { border-radius: 0; background: #0d1b3e; }
+      .pb { display: none; }
+      footer { color: #94a3b8; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Fixed background layers -->
+<div class="bg-fixed"></div>
+<div class="bg-overlay"></div>
+
+<div class="w">
+
+  <!-- Top navigation -->
+  <nav class="doc-nav">
+    <a href="oficina.html" class="back-link">Voltar à oficina</a>
+  </nav>
+
+  <header>
+    <h1>📐 Oficina SAEB – Matemática</h1>
+    <p>Avaliação para Aprendizagem: Instrumentos do SAEB na Prática Docente</p>
+    <span class="badge">⏱ 60 min | 👩‍🏫 Professores de Matemática | 📊 Atividades Práticas</span>
+  </header>
+
+  <!-- IDENTIFICACAO -->
+  <div class="s">
+    <div class="st">1. Identificação</div>
+    <table>
+      <tr>
+        <td class="lc">Título</td>
+        <td>Avaliação para Aprendizagem e o SAEB: Instrumentos a Favor da Prática Docente em Matemática</td>
+      </tr>
+      <tr>
+        <td class="lc">Área</td>
+        <td>✅ Matemática</td>
+      </tr>
+      <tr>
+        <td class="lc">Público-alvo</td>
+        <td>Professores de Matemática – Ensino Médio (3ª série)</td>
+      </tr>
+      <tr>
+        <td class="lc">Participantes</td>
+        <td>Até 12 </td>
+      </tr>
+      <tr>
+        <td class="lc">Carga horária</td>
+        <td>1 hora (60 minutos)</td>
+      </tr>
+      <tr>
+        <td class="lc">Data</td>
+        <td> 08 / 05 / 2026 </td>
+      </tr>
+      <tr>
+        <td class="lc">Local</td>
+        <td> UNIVASF </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- CRONOGRAMA COM ATIVIDADES -->
+  <div class="s">
+    <div class="st">2. Roteiro da Oficina – Cronograma com Atividades</div>
+
+    <div class="er" style="background:#e0f2fe">
+      <div class="en">1</div>
+      <div class="eb">
+        <div class="et">ABERTURA: "O que você sabe sobre o SAEB?" (10 min)</div>
+        <div class="ed">Dinâmica inicial para mapear o conhecimento prévio do grupo.</div>
+      </div>
+      <div class="tb">10 min</div>
+    </div>
+
+    <div class="ativ-destaque">
+      <h4>📝 ATIVIDADE 1 – Tempestade de Palavras</h4>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Material:</strong> Post-its (ou tiras de papel) e
+        quadro/parede.</p>
+      <p style="font-size:.88rem;margin-bottom:8px"><strong>Instrução para os professores:</strong></p>
+      <ol style="font-size:.88rem">
+        <li>Cada professor recebe <strong>2 post-its</strong>.</li>
+        <li>No 1º post-it, escreva: <em>"Uma palavra que representa o SAEB para mim"</em></li>
+        <li>No 2º post-it, escreva: <em>"O que eu gostaria de aprender sobre o SAEB nesta oficina"</em></li>
+        <li>Cole no quadro. O formador organiza em 2 colunas: <strong>PERCEPÇÕES</strong> x
+          <strong>EXPECTATIVAS</strong>
+        </li>
+        <li>Leitura rápida coletiva – o formador destaca conexões e anuncia os objetivos da oficina.</li>
+      </ol>
+    </div>
+
+    <hr style="border:none;border-top:2px solid #e2e8f0;margin:20px 0">
+
+    <div class="er">
+      <div class="en">2</div>
+      <div class="eb">
+        <div class="et">EXPOSIÇÃO + ATIVIDADE: Conhecendo os Instrumentos do SAEB (20 min)</div>
+        <div class="ed">Breve exposição dialogada + atividade prática de análise da Matriz e Escala.</div>
+      </div>
+      <div class="tb">20 min</div>
+    </div>
+
+    <div class="ativ-destaque">
+      <h4>📊 ATIVIDADE 2 – Desvendando a Escala de Proficiência (em duplas – 8 min)</h4>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Material:</strong> Ficha impressa abaixo (1 por dupla).
+      </p>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Instrução:</strong> Após a apresentação inicial sobre o
+        SAEB (12 min de exposição), cada dupla recebe a ficha com os níveis da Escala de Proficiência de Matemática da
+        3ª série do Ensino Médio e responde às perguntas.</p>
+
+      <div style="background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:16px;margin:12px 0">
+        <h4 style="color:#1e3a5f;text-align:center;margin-bottom:12px">ESCALA DE PROFICIÊNCIA – MATEMÁTICA – 3ª SÉRIE EM
+          (Extrato)</h4>
+
+        <div class="nivel-card">
+          <div class="nv">Nível 5<br><small>325–350</small></div>
+          <div class="nd">• Determinar medidas de segmentos por meio da semelhança entre dois polígonos<br>• Determinar o valor de variável dependente ou independente de uma função exponencial dada<br>• Determinar o valor de uma expressão algébrica<br>• Resolver problema envolvendo probabilidade de união de eventos<br>• Avaliar o comportamento de uma função representada graficamente, quanto ao seu crescimento</div>
+        </div>
+        <div class="nivel-card">
+          <div class="nv">Nível 6<br><small>350–375</small></div>
+          <div class="nd">• Associar um sólido geométrico simples a uma planificação usual dada<br>• Resolver problemas envolvendo Teorema de Pitágoras para calcular a hipotenusa de um triângulo pitagórico<br>• Determinar a razão de semelhança entre imagens de um mesmo objeto em escalas diferentes<br>• Determinar o volume de um paralelepípedo retângulo, dada sua representação espacial<br>• Determinar os zeros de uma função quadrática a partir de sua expressão algébrica</div>
+        </div>
+        <div class="nivel-card">
+          <div class="nv">Nível 7<br><small>375–400</small></div>
+          <div class="nd">• Determinar a medida de um lado de triângulo retângulo por meio de razões trigonométricas<br>• Determinar, com Teorema de Pitágoras, a medida de um cateto de triângulo retângulo não pitagórico<br>• Determinar a área de um polígono não convexo composto por retângulos e triângulos<br>• Resolver problemas por meio de semelhança de triângulos sem apoio de figura<br>• Reconhecer gráfico de função afim a partir de sua representação algébrica<br>• Reconhecer a equação de uma reta a partir de dois de seus pontos<br>• Reconhecer os zeros de uma função quadrática em sua forma fatorada<br>• Determinar os pontos de máximo ou mínimo a partir do gráfico de uma função<br>• Resolver problemas usando permutação<br>• Resolver problemas utilizando probabilidade, envolvendo eventos independentes</div>
+        </div>
+        <div class="nivel-card">
+          <div class="nv">Nível 8<br><small>400–425</small></div>
+          <div class="nd">• Reconhecer o gráfico de função trigonométrica da forma y=sen(x)<br>• Determinar a equação de uma circunferência, dados o centro e o raio<br>• Determinar o volume de cilindros<br>• Determinar a área da superfície de uma pirâmide regular<br>• Resolver problema envolvendo razões trigonométricas no triângulo retângulo, com apoio de figura<br>• Determinar o valor máximo de função quadrática a partir de sua expressão algébrica e das coordenadas do vértice<br>• Determinar a distância entre dois pontos no plano cartesiano</div>
+        </div>
+        <div class="nivel-card">
+          <div class="nv">Nível 9<br><small>425–450</small></div>
+          <div class="nd">• Reconhecer a equação que representa uma circunferência dentre diversas equações dadas<br>• Determinar o volume de pirâmides regulares<br>• Resolver problema envolvendo cálculo de volume de cilindro<br>• Reconhecer o gráfico de uma função exponencial do tipo f(x)=10^(x+1)<br>• Reconhecer o gráfico de uma função logarítmica dada a expressão algébrica de sua inversa<br>• Determinar a expressão algébrica correspondente a uma função exponencial<br>• Determinar a inversa de uma função exponencial dada<br>• Determinar inclinação ou coeficiente angular de retas a partir de suas equações</div>
+        </div>
+      </div>
+
+      <div class="ficha">
+        <h4>📋 FICHA DE ANÁLISE – Atividade 2</h4>
+        <div class="campo">
+          <div class="campo-label">1. Na sua turma de 3ª série, em qual nível você estima que a MAIORIA dos seus alunos se
+            encontra? Por quê?</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">2. Quais habilidades do Nível 6 você já trabalha em sala? Quais ainda NÃO trabalha?
+          </div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">3. Escolha UMA habilidade do Nível 7 ou 8 que seus alunos da 3ª série têm mais dificuldade.
+            Qual é? Por quê?</div>
+        </div>
+      </div>
+    </div>
+
+    <hr style="border:none;border-top:2px solid #e2e8f0;margin:20px 0">
+
+    <div class="er" style="background:#e0f2fe">
+      <div class="en">3</div>
+      <div class="eb">
+        <div class="et">ATIVIDADE CENTRAL: Analisando Questões Reais do SAEB (20 min)</div>
+        <div class="ed">Em trios, os professores analisam questões reais e criam plano de intervenção.</div>
+      </div>
+      <div class="tb">20 min</div>
+    </div>
+
+    <div class="ativ-destaque">
+      <h4>🧩 ATIVIDADE 3 – Estudo de Caso: Da Questão ao Plano de Ação (em trios – 12 min)</h4>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Material:</strong> Ficha com questões (abaixo) + Ficha de
+        Plano de Intervenção.</p>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Instrução:</strong> Cada trio recebe UMA questão (A ou
+        B ou C). Devem analisar e preencher a Ficha de Plano de Intervenção.</p>
+
+      <div class="quest-box">
+        <h4>QUESTÃO A – Função Quadrática / Máximo (Descritor D25 – Álgebra e Funções)</h4>
+        <p style="font-size:.9rem;margin-bottom:12px">Uma fábrica produz x unidades de um produto por dia. O lucro diário, em reais, é dado pela função L(x) = –2x² + 120x – 400. Qual é o número de unidades que a fábrica deve produzir por dia para obter o lucro máximo?</p>
+        <div class="quest-alt">
+          <label>⬜ (A) 20 unidades</label>
+          <label>🟦 (B) 30 unidades</label>
+          <label>⬜ (C) 40 unidades</label>
+          <label>⬜ (D) 60 unidades</label>
+        </div>
+        <p style="font-size:.82rem;color:#64748b;margin-top:8px"><strong>Gabarito:</strong> B (xv = –b/2a = –120/–4 = 30) |
+          <strong>Descritor:</strong> D25 – Resolver problemas envolvendo ponto de máximo ou mínimo de função do 2º grau |
+          <strong>Eixo:</strong> III – Números e Operações; Álgebra e Funções | <strong>Nível na Escala:</strong> 8 (400–425)
+        </p>
+      </div>
+
+      <div class="quest-box">
+        <h4>QUESTÃO B – Probabilidade (Descritor D33 – Tratamento da Informação)</h4>
+        <p style="font-size:.9rem;margin-bottom:8px">Em uma urna há 3 bolas vermelhas, 4 bolas azuis e 5 bolas brancas. Retirando-se duas bolas aleatoriamente, <strong>sem reposição</strong>, qual é a probabilidade de que ambas sejam azuis?</p>
+        <p style="font-size:.88rem;margin:8px 0;color:#475569"><em>Dados: C(n,k) = n! / [k!(n–k)!]</em></p>
+        <div class="quest-alt">
+          <label>⬜ (A) 1/12</label>
+          <label>🟦 (B) 1/11</label>
+          <label>⬜ (C) 2/11</label>
+          <label>⬜ (D) 1/6</label>
+        </div>
+        <p style="font-size:.82rem;color:#64748b;margin-top:8px"><strong>Gabarito:</strong> B (C(4,2)/C(12,2) = 6/66 = 1/11) |
+          <strong>Descritor:</strong> D33 – Calcular a probabilidade de um evento |
+          <strong>Eixo:</strong> IV – Tratamento da Informação | <strong>Nível na Escala:</strong> 7 (375–400)
+        </p>
+      </div>
+
+      <div class="quest-box">
+        <h4>QUESTÃO C – Geometria Espacial / Volume (Descritor D13)</h4>
+        <p style="font-size:.9rem;margin-bottom:12px">Um reservatório cilíndrico tem raio da base igual a 3 metros e altura de 5 metros. Qual é o volume desse reservatório, em m³? (Use π = 3,14)</p>
+        <div class="quest-alt">
+          <label>⬜ (A) 47,10 m³</label>
+          <label>⬜ (B) 94,20 m³</label>
+          <label>🟦 (C) 141,30 m³</label>
+          <label>⬜ (D) 282,60 m³</label>
+        </div>
+        <p style="font-size:.82rem;color:#64748b;margin-top:8px"><strong>Gabarito:</strong> C (V = π·r²·h = 3,14·9·5 = 141,3) |
+          <strong>Descritor:</strong> D13 – Resolver problema envolvendo volume de sólidos (cilindro) |
+          <strong>Eixo:</strong> II – Grandezas e Medidas | <strong>Nível na Escala:</strong> 8 (400–425)
+        </p>
+      </div>
+
+      <div class="ficha">
+        <h4>📋 FICHA DE PLANO DE INTERVENÇÃO – Atividade 3</h4>
+        <div class="campo">
+          <div class="campo-label">1. DESCRITOR: Qual é o descritor avaliado nesta questão? A qual eixo da Matriz
+            pertence?</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">2. NÍVEL: Em qual nível da Escala de Proficiência essa habilidade aparece?</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">3. DIFICULDADE: Na sua experiência, por que os alunos erram esse tipo de questão?
+            Quais são os erros mais comuns?</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">4. ESTRATÉGIA DE INTERVENÇÃO: Descreva UMA atividade concreta que você faria em
+            sala para desenvolver essa habilidade nos alunos (material, metodologia, tempo estimado):</div>
+          <div style="min-height:80px"></div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">5. RECURSO PEDAGÓGICO: Que recurso você usaria? (material concreto, jogo,
+            tecnologia, situação do cotidiano, etc.)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ativ-destaque" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b">
+      <h4>🎤 ATIVIDADE 3B – Socialização dos Planos (8 min)</h4>
+      <p style="font-size:.88rem">Cada trio apresenta sua proposta em <strong>2 minutos</strong>:</p>
+      <ol style="font-size:.88rem">
+        <li>Qual questão analisaram e qual descritor identificaram;</li>
+        <li>Qual a principal dificuldade dos alunos;</li>
+        <li>Qual a estratégia de intervenção proposta.</li>
+      </ol>
+      <p style="font-size:.88rem;margin-top:8px">O formador anota as estratégias no quadro, montando um <strong>"Banco
+          de Estratégias Coletivo"</strong>.</p>
+    </div>
+
+    <hr style="border:none;border-top:2px solid #e2e8f0;margin:20px 0">
+
+    <div class="er">
+      <div class="en">4</div>
+      <div class="eb">
+        <div class="et">ENCERRAMENTO: Síntese e Saída Reflexiva (10 min)</div>
+        <div class="ed">Conexão entre as atividades e a avaliação para a aprendizagem.</div>
+      </div>
+      <div class="tb">10 min</div>
+    </div>
+
+    <div class="ativ-destaque" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:#34d399">
+      <h4>🌟 ATIVIDADE 4 – Saída Reflexiva: "Compromisso Pedagógico"</h4>
+      <p style="font-size:.88rem;margin-bottom:10px"><strong>Material:</strong> Ficha abaixo (1 por professor).</p>
+
+      <div class="ficha" style="border-color:#34d399;background:#fff">
+        <h4 style="color:#065f46">📋 FICHA DE SAÍDA REFLEXIVA</h4>
+        <div class="campo">
+          <div class="campo-label">1. O que eu NÃO sabia sobre o SAEB e agora sei:</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">2. Um descritor de Matemática que vou trabalhar de forma diferente na minha turma:
+          </div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">3. Meu compromisso pedagógico para as próximas 2 semanas:</div>
+        </div>
+        <div class="campo">
+          <div class="campo-label">4. Avalie esta oficina (1 a 5): ☐1 ☐2 ☐3 ☐4 ☐5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMO DAS ATIVIDADES -->
+  <div class="s">
+    <div class="st">3. Resumo das Atividades</div>
+    <table>
+      <tr>
+        <th>Ativ.</th>
+        <th>Nome</th>
+        <th>Formato</th>
+        <th>Tempo</th>
+        <th>Material</th>
+      </tr>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Tempestade de Palavras</td>
+        <td>Individual</td>
+        <td>10 min</td>
+        <td>Post-its</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Desvendando a Escala</td>
+        <td>Duplas</td>
+        <td>8 min</td>
+        <td>Ficha + Escala impressa</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Da Questão ao Plano de Ação</td>
+        <td>Trios</td>
+        <td>12 min</td>
+        <td>Questão SAEB + Ficha</td>
+      </tr>
+      <tr>
+        <td><strong>3B</strong></td>
+        <td>Socialização/Banco de Estratégias</td>
+        <td>Coletivo</td>
+        <td>8 min</td>
+        <td>Quadro</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Saída Reflexiva/Compromisso</td>
+        <td>Individual</td>
+        <td>10 min</td>
+        <td>Ficha de saída</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="s">
+    <div class="st">4. Material para Impressão (Checklist)</div>
+    <table>
+      <tr>
+        <th>✓</th>
+        <th>Material</th>
+        <th>Qtd</th>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Post-its (2 cores)</td>
+        <td>24 unid.</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Ficha da Escala de Proficiência – 3ª série EM (Atividade 2)</td>
+        <td>6 cópias</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Questão A – Função Quadrática/Máximo + Ficha Intervenção</td>
+        <td>2 cópias</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Questão B – Probabilidade + Ficha Intervenção</td>
+        <td>2 cópias</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Questão C – Volume do Cilindro + Ficha Intervenção</td>
+        <td>2 cópias</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Ficha de Saída Reflexiva</td>
+        <td>12 cópias</td>
+      </tr>
+      <tr>
+        <td>☐</td>
+        <td>Slides de apoio (exposição – 12 min)</td>
+        <td>1 arquivo</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- AVALIACAO -->
+  <div class="s">
+    <div class="st">5. Avaliação e Resultados Esperados</div>
+    <p style="line-height:1.7;margin-bottom:12px"><strong>Avaliação formativa</strong> em 3 momentos: (1) engajamento
+      na Atividade 2; (2) qualidade do Plano de Intervenção na Atividade 3; (3) Ficha de Saída Reflexiva.</p>
+    <p style="line-height:1.7"><strong>Resultados esperados:</strong> professores que saiam da oficina sabendo usar a
+      Escala de Proficiência e a Matriz de Referência como ferramentas de diagnóstico, com pelo menos 1 estratégia
+      concreta de intervenção para aplicar na semana seguinte.</p>
+  </div>
+
+  <!-- V2: INSTRUMENTOS DE APRENDIZAGEM -->
+  <div class="s" style="border-left:4px solid #f59e0b">
+    <div class="st" style="border-left-color:#f59e0b">6. Instrumentos de Avaliação para a Aprendizagem (Portaria 190/2024)</div>
+    <p style="line-height:1.7;margin-bottom:14px">Conforme a <strong>Portaria Estadual nº 190/2024</strong>, a avaliação processual da aprendizagem se fundamenta em <strong>5 bases</strong> que devem orientar a prática docente:</p>
+    <div class="nivel-card" style="margin:8px 0">
+      <div class="nv" style="background:#f59e0b;font-size:.75rem">I<br>Diagnóstica</div>
+      <div class="nd"><strong>Ação diagnóstica de caráter investigativo e inclusivo:</strong> busca identificar avanços e dificuldades da aprendizagem. Utiliza instrumentos como avaliações iniciais, observação e sondagem.</div>
+    </div>
+    <div class="nivel-card" style="margin:8px 0">
+      <div class="nv" style="background:#f59e0b;font-size:.75rem">II<br>Processual</div>
+      <div class="nd"><strong>Ação processual contínua e mediadora:</strong> identifica a construção dos conhecimentos ao longo do percurso, permitindo adoção de estratégias para recompor o percurso escolar.</div>
+    </div>
+    <div class="nivel-card" style="margin:8px 0">
+      <div class="nv" style="background:#f59e0b;font-size:.75rem">III<br>Cumulativa</div>
+      <div class="nd"><strong>Ação cumulativa:</strong> preponderando as avaliações na construção do conhecimento, com ênfase nos <em>processos</em> e não nos <em>produtos</em> das aprendizagens.</div>
+    </div>
+    <div class="nivel-card" style="margin:8px 0">
+      <div class="nv" style="background:#f59e0b;font-size:.75rem">IV<br>Emancipatória</div>
+      <div class="nd"><strong>Ação emancipatória:</strong> participativa e democrática, em que os agentes envolvidos analisam e manifestam autonomia no exercício de aprender e ensinar.</div>
+    </div>
+    <div class="nivel-card" style="margin:8px 0">
+      <div class="nv" style="background:#f59e0b;font-size:.75rem">V<br>Recomposição</div>
+      <div class="nd"><strong>Recomposição da aprendizagem:</strong> recuperação paralela ao período letivo para casos de baixo rendimento escolar (LDB + Portaria 195/2024 – Projeto de Sucesso Escolar).</div>
+    </div>
+    <div class="av" style="margin-top:14px">⚠️ <strong>Regra da Portaria:</strong> Mínimo de <strong>3 avaliações por unidade letiva</strong>, totalizando 10 pontos. Média mínima: 5,0.</div>
+  </div>
+
+  <!-- V2: PADROES SABE -->
+  <div class="s" style="border-left:4px solid #8b5cf6">
+    <div class="st" style="border-left-color:#8b5cf6">7. Padrões de Desempenho – SABE/SAEB</div>
+    <p style="line-height:1.7;margin-bottom:14px">O <strong>SABE</strong> (Sistema de Avaliação Baiano da Educação) utiliza 4 padrões de desempenho para classificar os resultados dos estudantes:</p>
+    <table>
+      <tr><th style="background:#dc2626">Abaixo do Básico</th><th style="background:#f59e0b">Básico</th><th style="background:#16a34a">Adequado</th><th style="background:#2563eb">Avançado</th></tr>
+      <tr>
+        <td style="font-size:.82rem">Domínio insuficiente dos conhecimentos. Necessita intervenção urgente e recomposição das aprendizagens.</td>
+        <td style="font-size:.82rem">Domínio mínimo. Precisa de estratégias de reforço e acompanhamento contínuo.</td>
+        <td style="font-size:.82rem">Domínio satisfatório. Demonstra habilidades compatíveis com a etapa de ensino.</td>
+        <td style="font-size:.82rem">Domínio pleno. Supera as expectativas para a etapa, com habilidades consolidadas.</td>
+      </tr>
+    </table>
+    <p style="line-height:1.7;margin-top:14px;font-size:.9rem">A articulação entre os resultados do SABE/SAEB (avaliação <strong>externa</strong>) e as avaliações internas da escola permite um diagnóstico completo para tomada de decisões pedagógicas.</p>
+  </div>
+
+  <!-- V2: CONSELHO DE CLASSE -->
+  <div class="s" style="border-left:4px solid #059669">
+    <div class="st" style="border-left-color:#059669">8. Conselho de Classe como Instrumento Avaliativo</div>
+    <p style="line-height:1.7;margin-bottom:14px">O Conselho de Classe é um <strong>instrumento colegiado de avaliação</strong> que congrega professores, diretores e pedagogos para refletir sobre o desempenho pedagógico. Estrutura-se em 3 momentos:</p>
+    <table>
+      <tr><th>Fase</th><th>Ações</th></tr>
+      <tr><td class="lc" style="width:25%">1. Pré-Conselho</td><td style="font-size:.85rem">Anotações durante a unidade letiva • Fichas diagnósticas • Acompanhamento dos aspectos emocionais, cognitivos e afetivos • Estudos sobre avaliação • Curadoria de instrumentos</td></tr>
+      <tr><td class="lc">2. Conselho</td><td style="font-size:.85rem">Análise dos dados qualitativos e quantitativos • Proposição de procedimentos diferenciados • Mecanismos de recuperação • Deliberações sobre avanço/retenção</td></tr>
+      <tr><td class="lc">3. Pós-Conselho</td><td style="font-size:.85rem">Retomada das deliberações • Plano de ação fixado em sala • Acompanhamento das ações • Busca ativa escolar</td></tr>
+    </table>
+  </div>
+
+  <!-- V2: ATIVIDADE 5 - ARTICULACAO -->
+  <div class="s" style="border-left:4px solid #dc2626">
+    <div class="st" style="border-left-color:#dc2626">9. ATIVIDADE 5 – Articulando Avaliação Interna × Externa (Ficha Prática)</div>
+    <p style="font-size:.88rem;margin-bottom:14px"><strong>Instrução:</strong> Em duplas, os professores preenchem a ficha abaixo, articulando os instrumentos do SAEB/SABE com a avaliação processual da Portaria 190/2024.</p>
+
+    <div class="ficha" style="border-color:#dc2626">
+      <h4 style="color:#dc2626">📋 FICHA DE ARTICULAÇÃO: AVALIAÇÃO INTERNA × EXTERNA</h4>
+      <div class="campo">
+        <div class="campo-label">1. DIAGNÓSTICO: Com base nos resultados do SAEB/SABE da sua escola, em qual padrão de desempenho (Abaixo do Básico / Básico / Adequado / Avançado) a maioria dos seus alunos de Matemática se encontra?</div>
+      </div>
+      <div class="campo">
+        <div class="campo-label">2. CONFRONTAÇÃO: Esses resultados externos são coerentes com as suas avaliações internas? Se não, por que acha que há diferença?</div>
+      </div>
+      <div class="campo">
+        <div class="campo-label">3. AS 5 BASES: Qual das 5 bases da avaliação processual (Diagnóstica, Processual, Cumulativa, Emancipatória, Recomposição) você MAIS pratica? Qual MENOS pratica?</div>
+      </div>
+      <div class="campo">
+        <div class="campo-label">4. INSTRUMENTO CONCRETO: Descreva UM instrumento avaliativo (diferente de prova) que você pode usar na próxima unidade letiva para avaliar uma habilidade do SAEB de forma processual:</div>
+        <div style="min-height:60px"></div>
+      </div>
+      <div class="campo">
+        <div class="campo-label">5. CONSELHO DE CLASSE: Que dado do SAEB/SABE você levaria para o próximo Pré-Conselho de Classe? Como apresentaria esse dado aos colegas?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2: QUADRO SINTESE -->
+  <div class="s">
+    <div class="st">10. Quadro-Síntese: Instrumentos de Avaliação para a Aprendizagem</div>
+    <table>
+      <tr><th>Instrumento</th><th>Tipo</th><th>Finalidade</th><th>Base Legal</th></tr>
+      <tr><td>Avaliação processual interna</td><td>Interna</td><td>Diagnosticar, acompanhar e recompor aprendizagens</td><td>Portaria 190/2024</td></tr>
+      <tr><td>Prova SAEB</td><td>Externa (federal)</td><td>Avaliar proficiência em LP e Matemática (censitária)</td><td>Portaria 267/2023 INEP</td></tr>
+      <tr><td>Prova SABE</td><td>Externa (estadual)</td><td>Avaliar proficiência na rede baiana + padrões de desempenho</td><td>Portaria 1.287/2024</td></tr>
+      <tr><td>Matriz de Referência</td><td>Documento orientador</td><td>Definir descritores e habilidades avaliadas</td><td>INEP 2001 / BNCC</td></tr>
+      <tr><td>Escala de Proficiência</td><td>Documento orientador</td><td>Interpretar o que o aluno sabe em cada nível</td><td>INEP/Daeb 2018</td></tr>
+      <tr><td>Questionário do Professor</td><td>Instrumento SAEB</td><td>Coletar dados contextuais que subsidiam políticas</td><td>SAEB 2025</td></tr>
+      <tr><td>Conselho de Classe</td><td>Órgão colegiado</td><td>Reflexão, avaliação e intervenção coletiva</td><td>PPP / LDB</td></tr>
+      <tr><td>Projeto de Sucesso Escolar</td><td>Programa estadual</td><td>Busca ativa + recomposição + permanência</td><td>Portaria 195/2024</td></tr>
+    </table>
+  </div>
+
+  <!-- AVALIACAO ATUALIZADA -->
+  <div class="s">
+    <div class="st">11. Avaliação e Resultados Esperados</div>
+    <p style="line-height:1.7;margin-bottom:12px"><strong>Avaliação formativa</strong> em 4 momentos: (1) engajamento na Atividade 2; (2) qualidade do Plano de Intervenção na Atividade 3; (3) qualidade da articulação na Atividade 5; (4) Ficha de Saída Reflexiva.</p>
+    <p style="line-height:1.7"><strong>Resultados esperados:</strong> professores que saiam da oficina sabendo usar a Escala de Proficiência e a Matriz de Referência como ferramentas de diagnóstico, articulando avaliação interna (processual) e externa (SAEB/SABE), com pelo menos 1 instrumento concreto para aplicar na próxima unidade letiva.</p>
+  </div>
+
+  <!-- REFERENCIAS V2 -->
+  <div class="s">
+    <div class="st">12. Referências</div>
+    <div class="ri">BRASIL. INEP. SAEB 2025: Aplicação e inovações. Brasília: INEP, 2025.</div>
+    <div class="ri">BRASIL. INEP. Escala de Proficiência do SAEB – Matemática. Brasília: INEP, 2018.</div>
+    <div class="ri">BRASIL. INEP. Matriz de Referência de Matemática – SAEB 2001. Brasília: INEP, 2001.</div>
+    <div class="ri">BAHIA. SEC. Avaliação para Aprendizagem 2025. Salvador: SEC, 2025.</div>
+    <div class="ri">BAHIA. Portaria Estadual nº 190/2024 – Avaliação processual da aprendizagem.</div>
+    <div class="ri">BAHIA. Portaria Estadual nº 195/2024 – Projeto de Sucesso Escolar.</div>
+    <div class="ri">BAHIA. Portaria Estadual nº 1.287/2024 – Sistema de Avaliação Baiano da Educação (SABE).</div>
+    <div class="ri">BAHIA. SEC. Estratégia SAEB 2025. Salvador: SEC, 2025.</div>
+    <div class="ri">DALBEN, Ângela. Conselho de Classe e Avaliação. Campinas: Papirus, 2006.</div>
+    <div class="ri">LUCKESI, Cipriano. Avaliação da Aprendizagem Escolar. 15.ed. São Paulo: Cortez, 2003.</div>
+  </div>
+
+  <footer>Oficina SAEB – Matemática V2 | 2025 | Instrumentos de Aprendizagem | Baseado nos documentos oficiais do INEP, SEC-BA e Portarias Estaduais</footer>
+
+</div><!-- /.w -->
+</body>
+</html>

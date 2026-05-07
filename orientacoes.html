@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Orientações da Oficina – SAEB 2026</title>
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-sans);
+      background: var(--navy-900);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    /* ── Layout — usa JS para altura real no mobile ── */
+    .layout {
+      display: grid;
+      grid-template-rows: 48px 1fr 56px;
+      height: 100vh; /* fallback */
+    }
+
+    /* ── Top Bar ── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px;
+      background: var(--navy-900);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      z-index: 10;
+    }
+    .topbar-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700;
+      color: rgba(255,255,255,.75);
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    .topbar-title span { color: var(--blue-400); }
+
+    .topbar-counter {
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.4);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-pill);
+      padding: 4px 14px;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      padding: 7px 18px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--blue-400), var(--blue-500));
+      box-shadow: 0 3px 14px rgba(96,165,250,.45);
+      transition: transform .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .back-btn:hover, .back-btn:active {
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
+      transform: translateY(-1px);
+    }
+    .back-btn::before { content: '←'; font-size: 14px; }
+
+    /* ── Slide Area ── */
+    .slide-area {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background: #0a1020;
+      overflow: hidden;
+      cursor: grab;
+    }
+    .slide-area:active { cursor: grabbing; }
+
+    /* Vídeo de fundo do slide-area */
+    .slide-bg-video {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      filter: blur(1px) brightness(.55) saturate(.85);
+    }
+    .slide-bg-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: rgba(8, 15, 40, .40);
+      pointer-events: none;
+    }
+
+    .slide-img {
+      position: relative; z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      animation: fadeIn .22s ease;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .slide-img.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(.988); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Bottom Bar ── */
+    .bottombar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px;
+      background: var(--navy-900);
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 0 20px;
+    }
+
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 700;
+      color: var(--navy-900);
+      border: none; cursor: pointer;
+      padding: 8px 24px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      box-shadow: 0 4px 18px rgba(245,158,11,.4);
+      transition: transform .15s, box-shadow .15s;
+      font-family: var(--font-sans);
+      /* toque mais fácil em tablet */
+      min-height: 40px; min-width: 110px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-btn:hover  { background: linear-gradient(135deg, var(--gold-500), #d97706); transform: translateY(-1px); }
+    .nav-btn:active { transform: scale(.96); box-shadow: none; }
+    .nav-btn:disabled {
+      opacity: .3; cursor: not-allowed;
+      transform: none; box-shadow: none;
+    }
+    .nav-btn .arrow { font-size: 16px; }
+
+    .slide-indicator {
+      display: flex; align-items: center; gap: 8px;
+      min-width: 90px; justify-content: center;
+    }
+    .indicator-num   { font-size: 1.1rem; font-weight: 800; color: var(--white); }
+    .indicator-sep   { color: rgba(255,255,255,.3); }
+    .indicator-total { font-size: .9rem; font-weight: 600; color: rgba(255,255,255,.45); }
+
+    /* progress bar */
+    .progress-bar {
+      position: absolute;
+      bottom: 56px; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,.06);
+      z-index: 10;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-400), var(--gold-500));
+      transition: width .28s ease;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* swipe hint (some para tablet) */
+    .swipe-hint {
+      position: absolute;
+      bottom: 66px; right: 16px;
+      font-size: 11px; color: rgba(255,255,255,.18);
+      pointer-events: none;
+    }
+
+    /* ── Responsivo tablet ── */
+    @media (max-width: 768px) {
+      .topbar-title { font-size: 12px; }
+      .back-btn     { padding: 6px 14px; font-size: 12px; }
+      .nav-btn      { padding: 7px 18px; font-size: 13px; min-width: 90px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout" id="layout">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-title">
+      📐 Oficina SAEB &nbsp;·&nbsp; <span>Orientações</span>
+    </div>
+    <div class="topbar-counter" id="topCounter">1 / 14</div>
+    <a href="oficina.html" class="back-btn">Voltar à oficina</a>
+  </header>
+
+  <!-- SLIDE AREA — caminhos com %20 para Netlify/Linux -->
+  <main class="slide-area" id="slideArea">
+
+    <!-- Vídeo de fundo -->
+    <video class="slide-bg-video" autoplay muted loop playsinline preload="auto">
+      <source src="assets/img7.mp4" type="video/mp4">
+    </video>
+    <div class="slide-bg-overlay"></div>
+
+    <img src="slide%20SAEB/1.png"  class="slide-img active" alt="Slide 1"  draggable="false">
+    <img src="slide%20SAEB/2.png"  class="slide-img" alt="Slide 2"  draggable="false">
+    <img src="slide%20SAEB/3.png"  class="slide-img" alt="Slide 3"  draggable="false">
+    <img src="slide%20SAEB/4.png"  class="slide-img" alt="Slide 4"  draggable="false">
+    <img src="slide%20SAEB/5.png"  class="slide-img" alt="Slide 5"  draggable="false">
+    <img src="slide%20SAEB/6.png"  class="slide-img" alt="Slide 6"  draggable="false">
+    <img src="slide%20SAEB/10.png" class="slide-img" alt="Slide 10" draggable="false">
+    <img src="slide%20SAEB/11.png" class="slide-img" alt="Slide 11" draggable="false">
+    <img src="slide%20SAEB/12.png" class="slide-img" alt="Slide 12" draggable="false">
+    <img src="slide%20SAEB/13.png" class="slide-img" alt="Slide 13" draggable="false">
+    <img src="slide%20SAEB/14.png" class="slide-img" alt="Slide 14" draggable="false">
+    <img src="slide%20SAEB/15.png" class="slide-img" alt="Slide 15" draggable="false">
+    <img src="slide%20SAEB/16.png" class="slide-img" alt="Slide 16" draggable="false">
+    <img src="slide%20SAEB/17.png" class="slide-img" alt="Slide 17" draggable="false">
+
+    <div class="swipe-hint">← deslize →</div>
+  </main>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:7.14%"></div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <footer class="bottombar">
+    <button class="nav-btn" id="btnPrev" onclick="changeSlide(-1)" disabled>
+      <span class="arrow">◀</span> Anterior
+    </button>
+
+    <div class="slide-indicator">
+      <span class="indicator-num" id="numCurrent">1</span>
+      <span class="indicator-sep">/</span>
+      <span class="indicator-total">14</span>
+    </div>
+
+    <button class="nav-btn" id="btnNext" onclick="changeSlide(1)">
+      Próximo <span class="arrow">▶</span>
+    </button>
+  </footer>
+
+</div>
+
+<script>
+  /* ── Altura real no mobile (corrige 100vh no Android/iOS) ── */
+  function fixHeight() {
+    document.getElementById('layout').style.height = window.innerHeight + 'px';
+  }
+  fixHeight();
+  window.addEventListener('resize', fixHeight);
+
+  /* ── Slideshow ── */
+  const slides  = document.querySelectorAll('.slide-img');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const numEl   = document.getElementById('numCurrent');
+  const topEl   = document.getElementById('topCounter');
+  const fillEl  = document.getElementById('progressFill');
+  const total   = slides.length;
+  let current   = 0;
+
+  function showSlide(n) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, total - 1));
+    slides[current].classList.add('active');
+
+    const num = current + 1;
+    numEl.textContent  = num;
+    topEl.textContent  = num + ' / ' + total; // total = 14
+    fillEl.style.width = (num / total * 100).toFixed(2) + '%';
+
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) { showSlide(current + dir); }
+
+  /* ── Teclado ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+
+  /* ── Swipe touch (Android/iOS tablet) ── */
+  const area = document.getElementById('slideArea');
+  let txStart = 0, tyStart = 0;
+
+  area.addEventListener('touchstart', e => {
+    txStart = e.changedTouches[0].clientX;
+    tyStart = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  area.addEventListener('touchend', e => {
+    const dx = txStart - e.changedTouches[0].clientX;
+    const dy = Math.abs(tyStart - e.changedTouches[0].clientY);
+    // só navega se for swipe horizontal e não scroll vertical
+    if (Math.abs(dx) > 50 && Math.abs(dx) > dy) {
+      changeSlide(dx > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>

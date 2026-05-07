@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formulário da Oficina SAEB — PROFMAT / UNIVASF</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Site Header ── */
+.site-header {
+  background: var(--navy-900);
+  position: relative; overflow: hidden;
+  padding: 36px 32px 40px;
+  text-align: center;
+}
+.site-header::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% -10%, rgba(37,99,235,.32) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 50% at 90% 100%, rgba(26,158,168,.12) 0%, transparent 65%);
+}
+.site-header > * { position: relative; z-index: 1; }
+.header-logos {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-bottom: 22px;
+}
+.header-logos img { height: 30px; object-fit: contain; filter: brightness(0) invert(1); opacity: .85; }
+.header-sep { width: 1px; height: 24px; background: rgba(255,255,255,.18); }
+.header-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(37,99,235,.22); border: 1px solid rgba(96,165,250,.3);
+  color: var(--blue-400); font-size: 11px; font-weight: 800;
+  padding: 5px 16px; border-radius: var(--radius-pill);
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px;
+}
+.header-badge::before { content: '●'; font-size: 7px; }
+.site-header h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800;
+  color: var(--white); line-height: 1.15; margin-bottom: 8px;
+  text-shadow: 0 2px 20px rgba(0,0,0,.3);
+}
+.site-header h1 span { color: var(--blue-400); }
+.site-header p { font-size: .9rem; color: rgba(255,255,255,.5); }
+.back-btn {
+  position: absolute; top: 20px; right: 28px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 700; color: var(--white);
+  text-decoration: none; padding: 9px 22px; border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--blue-400), var(--blue-500));
+  box-shadow: 0 3px 16px rgba(96,165,250,.45);
+  transition: transform .15s, box-shadow .15s, background .15s;
+  white-space: nowrap;
+}
+.back-btn:hover {
+  background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(96,165,250,.55);
+}
+.back-btn::before { content: '←'; font-size: 14px; }
+
+/* ── Step Indicator (sticky) ── */
+.progress-bar-wrap {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--white); border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+.step-label {
+  text-align: center; font-size: 11px; font-weight: 700;
+  color: var(--fg-3); letter-spacing: .06em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.step-track {
+  display: flex; align-items: center;
+  max-width: 480px; margin: 0 auto;
+}
+.step-dot {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  border: 2px solid var(--border-subtle);
+  background: var(--white); color: var(--fg-3);
+  transition: background .3s, border-color .3s, color .3s;
+}
+.step-dot.active { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--white); }
+.step-dot.done   { background: var(--blue-100); border-color: var(--brand-primary); color: var(--brand-primary); }
+.step-line {
+  flex: 1; height: 2px; background: var(--border-subtle); transition: background .3s;
+}
+.step-line.done { background: var(--brand-primary); }
+
+/* ── Wrap ── */
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+/* ── Steps ── */
+.step { display: none; }
+.step.active { display: block; }
+
+/* ── Cards ── */
+.card {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Section Title ── */
+.st {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 1rem; font-weight: 800; color: var(--fg-1);
+  margin-bottom: 20px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.st-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--brand-primary); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; flex-shrink: 0;
+}
+
+/* ── Info box ── */
+.info {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--blue-50); border: 1px solid var(--blue-100);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  font-size: .8125rem; color: var(--brand-primary); font-weight: 600;
+  margin-bottom: 18px;
+}
+.info::before { content: 'ℹ'; font-size: 15px; }
+
+/* ── Info box teal ── */
+.info-teal {
+  background: var(--teal-100); border-color: rgba(26,158,168,.25);
+  color: var(--teal-600);
+}
+.info-teal::before { content: '⏱'; }
+
+/* ── Escala box ── */
+.escala-box {
+  background: var(--gray-50); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 18px;
+  font-size: .8125rem; line-height: 1.9; color: var(--fg-2);
+}
+.escala-box strong { color: var(--fg-1); display: block; margin-bottom: 6px; }
+
+/* ── Quest box ── */
+.quest-box {
+  background: var(--blue-50); border-left: 3px solid var(--brand-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 14px 16px; margin-bottom: 16px;
+  font-size: .8125rem; line-height: 1.75; color: var(--fg-2);
+}
+.quest-box strong { color: var(--brand-primary); display: block; margin-bottom: 4px; font-size: .875rem; }
+
+/* ── Form fields ── */
+.campo { margin-bottom: 18px; }
+label {
+  display: block; font-size: .8125rem; font-weight: 700;
+  color: var(--fg-1); margin-bottom: 7px;
+}
+input[type=text],
+input[type=email],
+textarea,
+select {
+  width: 100%;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 11px 13px;
+  font-family: var(--font-sans); font-size: .9rem; color: var(--fg-1);
+  background: var(--white); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.1);
+}
+textarea { min-height: 88px; resize: vertical; }
+
+/* ── Radio options ── */
+.radio-opt {
+  display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 11px 14px;
+  cursor: pointer; font-size: .875rem; font-weight: 500;
+  color: var(--fg-2); margin-bottom: 8px;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.radio-opt input { accent-color: var(--brand-primary); flex-shrink: 0; }
+.radio-opt:has(input:checked) {
+  border-color: var(--brand-primary);
+  background: var(--blue-50); color: var(--brand-primary); font-weight: 700;
+}
+
+/* ── Stars ── */
+.stars { display: flex; gap: 10px; margin-top: 8px; }
+.star {
+  font-size: 2.2rem; cursor: pointer; color: var(--gray-200);
+  transition: color .2s, transform .15s;
+  line-height: 1;
+}
+.star:hover { transform: scale(1.15); }
+.star.on { color: var(--gold-500); }
+
+/* ── Navigation ── */
+.nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 28px; gap: 12px;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--brand-primary); color: var(--white);
+  font-family: var(--font-sans); font-size: .9375rem; font-weight: 600;
+  padding: 11px 24px; border-radius: var(--radius-pill);
+  border: 2px solid var(--brand-primary); cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: background .15s, transform .12s;
+}
+.btn-primary:hover { background: var(--brand-primary-hover); border-color: var(--brand-primary-hover); transform: translateY(-1px); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--brand-primary);
+  font-family: var(--font-sans); font-size: .9375rem; font-weight: 600;
+  padding: 11px 24px; border-radius: var(--radius-pill);
+  border: 2px solid var(--brand-primary); cursor: pointer;
+  transition: background .15s, transform .12s;
+}
+.btn-outline:hover { background: var(--blue-50); transform: translateY(-1px); }
+.btn-success {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #059669; color: var(--white);
+  font-family: var(--font-sans); font-size: .9375rem; font-weight: 600;
+  padding: 11px 28px; border-radius: var(--radius-pill);
+  border: 2px solid #059669; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(5,150,105,.3);
+  transition: background .15s, transform .12s;
+}
+.btn-success:hover { background: #047857; transform: translateY(-1px); }
+
+/* ── Result card ── */
+.result-card {
+  background: var(--white); border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl); padding: 48px 40px;
+  box-shadow: var(--shadow-card); text-align: center;
+}
+.result-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: #dcfce7; color: #16a34a; font-size: 32px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.result-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--fg-1); margin-bottom: 10px; }
+.result-card > p { font-size: .9375rem; color: var(--fg-2); line-height: 1.65; margin-bottom: 24px; }
+.resumo-box {
+  text-align: left; background: var(--gray-50);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 20px 22px;
+  font-size: .8125rem; line-height: 2; color: var(--fg-2);
+  margin-top: 20px;
+}
+
+/* ── Background Media ── */
+#bg-media { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+.bg-layer  {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 1.6s ease;
+}
+.bg-layer.visible { opacity: 1; }
+.bg-layer img,
+.bg-layer video { width: 100%; height: 100%; object-fit: cover; }
+#bg-overlay {
+  position: fixed; inset: 0; z-index: -1;
+  background: var(--bg-page); opacity: .50;
+}
+
+/* ── Quiz interativo (Etapa 3) ── */
+.quiz-card {
+  background: var(--gray-50); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md); padding: 18px 20px; margin-bottom: 14px;
+}
+.quiz-title {
+  font-size: .875rem; font-weight: 800;
+  color: var(--brand-primary); margin-bottom: 6px;
+}
+.quiz-enun {
+  font-size: .8125rem; line-height: 1.75;
+  color: var(--fg-2); margin-bottom: 14px;
+}
+.quiz-alts {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;
+}
+.alt-btn {
+  padding: 10px 14px;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--white); font-family: var(--font-sans);
+  font-size: .875rem; font-weight: 600; color: var(--fg-2);
+  cursor: pointer; text-align: left;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.alt-btn:hover:not(:disabled) {
+  border-color: var(--brand-primary);
+  background: var(--blue-50); color: var(--brand-primary);
+}
+.alt-btn:disabled { cursor: default; }
+.alt-btn.correct  { border-color:#059669; background:#dcfce7; color:#065f46; }
+.alt-btn.wrong    { border-color:#dc2626; background:#fee2e2; color:#991b1b; }
+.alt-btn.reveal   { border-color:#059669; background:#dcfce7; color:#065f46; }
+.quiz-result {
+  display: none; align-items: center; gap: 8px;
+  padding: 10px 14px; border-radius: var(--radius-md);
+  font-size: .875rem; font-weight: 700; margin-top: 4px;
+}
+.quiz-result.show { display: flex; }
+.quiz-result.acertou { background:#dcfce7; color:#065f46; }
+.quiz-result.errou   { background:#fee2e2; color:#991b1b; }
+.quiz-expl {
+  display: none; font-size: .78rem; color: var(--fg-3);
+  font-style: italic; margin-top: 6px; line-height: 1.6;
+}
+.quiz-expl.show { display: block; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .card { padding: 20px 18px; }
+  .site-header { padding: 28px 20px 32px; }
+  .progress-bar-wrap { padding: 12px 16px; }
+  .back-btn { top: 12px; left: 12px; font-size: 11px; padding: 5px 10px; }
+  .nav { flex-direction: column-reverse; }
+  .btn-primary, .btn-outline, .btn-success { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND MEDIA (troca a cada etapa) -->
+<div id="bg-media" aria-hidden="true">
+  <div class="bg-layer visible" id="bg-1">
+    <video autoplay muted loop playsinline>
+      <source src="assets/img5.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="bg-layer" id="bg-2">
+    <img src="assets/img1.jpeg" alt="">
+  </div>
+  <div class="bg-layer" id="bg-3">
+    <img src="assets/img2.jpeg" alt="">
+  </div>
+  <div class="bg-layer" id="bg-4">
+    <img src="assets/img3.jpeg" alt="">
+  </div>
+  <div class="bg-layer" id="bg-5">
+    <video autoplay muted loop playsinline>
+      <source src="assets/img0.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+<div id="bg-overlay" aria-hidden="true"></div>
+
+<!-- HEADER -->
+<div class="site-header">
+  <a href="oficina.html" class="back-btn">Voltar à oficina</a>
+  <div class="header-badge">Formulário de Atividades</div>
+  <h1>Oficina <span>SAEB</span> Matemática</h1>
+  <p>Avaliação para Aprendizagem · 3ª série EM · UNIVASF 08/05/2026</p>
+</div>
+
+<!-- STEP INDICATOR -->
+<div class="progress-bar-wrap">
+  <div class="step-label" id="slabel">Etapa 1 de 5</div>
+  <div class="step-track" id="step-track">
+    <div class="step-dot active" id="dot-1">1</div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-dot" id="dot-3">3</div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step-dot" id="dot-4">4</div>
+    <div class="step-line" id="line-4"></div>
+    <div class="step-dot" id="dot-5">5</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- STEP 1 -->
+<div class="step active" id="s1">
+  <div class="card">
+    <div class="st"><div class="st-icon">01</div>Identificação do Participante</div>
+    <div class="campo"><label>Seu nome completo</label><input type="text" id="nome" placeholder="Digite seu nome"></div>
+    <div class="campo"><label>Escola / Instituição</label><input type="text" id="escola" placeholder="Nome da escola"></div>
+    <div class="campo"><label>Turma(s) que leciona</label><input type="text" id="turma" placeholder="Ex: 3ª série A, B e C"></div>
+  </div>
+  <div class="card">
+    <div class="st"><div class="st-icon">A1</div>Atividade 1 — Tempestade de Palavras</div>
+    <div class="info info-teal">10 minutos · Individual · Mapeamento do conhecimento prévio</div>
+    <div class="campo"><label>1. Escreva UMA palavra que representa o SAEB para você:</label>
+      <input type="text" id="palavra" placeholder="Ex: desafio, diagnóstico, aprendizagem..."></div>
+    <div class="campo"><label>2. O que você gostaria de aprender sobre o SAEB nesta oficina?</label>
+      <textarea id="expectativa" placeholder="Descreva sua expectativa para esta oficina..."></textarea></div>
+  </div>
+  <div class="nav"><span></span><button class="btn-primary" onclick="goTo(2)">Próximo →</button></div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" id="s2">
+  <div class="card">
+    <div class="st"><div class="st-icon">A2</div>Atividade 2 — Desvendando a Escala de Proficiência</div>
+    <div class="info info-teal">8 minutos · Duplas · Análise da Escala de Proficiência — Matemática — 3ª série EM</div>
+    <div class="escala-box">
+      <strong>Escala de Proficiência — Matemática — 3ª série EM (Extrato)</strong>
+      Nível 5 (300–325): Planificação de sólidos, posição relativa de retas, gráfico de setores<br>
+      Nível 6 (325–350): Função afim, equação da reta, zeros de função quadrática, máx/mín<br>
+      Nível 7 (350–375): Trigonometria, Pitágoras, probabilidade, permutação<br>
+      Nível 8 (375–400): Função trigonométrica, volume de cilindro, equação de circunferência<br>
+      Nível 9 (400–425): Função exponencial, logarítmica, coeficiente angular de retas
+    </div>
+    <div class="campo"><label>1. Em qual nível você estima que a MAIORIA dos seus alunos da 3ª série se encontra?</label>
+      <select id="nivel">
+        <option value="">Selecione...</option>
+        <option>Nível 5 (300–325)</option>
+        <option>Nível 6 (325–350)</option>
+        <option>Nível 7 (350–375)</option>
+        <option>Nível 8 (375–400)</option>
+        <option>Nível 9 (400–425)</option>
+      </select></div>
+    <div class="campo"><label>Por que você acredita nisso? Justifique:</label>
+      <textarea id="nivel_por" placeholder="Baseie-se em seus registros avaliativos..."></textarea></div>
+    <div class="campo"><label>2. Quais habilidades do Nível 6 você JÁ trabalha em sala? Quais NÃO trabalha?</label>
+      <textarea id="nivel6_ja" placeholder="Liste o que já trabalha e o que falta..."></textarea></div>
+    <div class="campo"><label>3. Escolha UMA habilidade do Nível 7 ou 8 mais difícil para seus alunos e explique por que:</label>
+      <textarea id="nivel78_dif" placeholder="Qual habilidade e por que os alunos têm dificuldade..."></textarea></div>
+  </div>
+  <div class="nav">
+    <button class="btn-outline" onclick="goTo(1)">← Voltar</button>
+    <button class="btn-primary" onclick="goTo(3)">Próximo →</button>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" id="s3">
+  <div class="card">
+    <div class="st"><div class="st-icon">A3</div>Atividade 3 — Da Questão ao Plano de Ação</div>
+    <div class="info info-teal">12 minutos · Trios · Análise de questão real do SAEB</div>
+    <!-- Quiz A -->
+    <div class="quiz-card">
+      <div class="quiz-title">Questão A — Função Quadrática (D25 · Álgebra e Funções)</div>
+      <div class="quiz-enun">
+        Uma fábrica produz <em>x</em> unidades/dia. O lucro diário é dado por L(x) = −2x² + 120x − 400.
+        Quantas unidades a fábrica deve produzir para obter o <strong>lucro máximo</strong>?
+      </div>
+      <div class="quiz-alts">
+        <button class="alt-btn" data-q="A" data-alt="A" onclick="check('A',this,'A','B')">A) 20 unidades</button>
+        <button class="alt-btn" data-q="A" data-alt="B" onclick="check('A',this,'B','B')">B) 30 unidades</button>
+        <button class="alt-btn" data-q="A" data-alt="C" onclick="check('A',this,'C','B')">C) 40 unidades</button>
+        <button class="alt-btn" data-q="A" data-alt="D" onclick="check('A',this,'D','B')">D) 60 unidades</button>
+      </div>
+      <div class="quiz-result" id="result-A"></div>
+      <div class="quiz-expl" id="expl-A">Resolução: xᵥ = −b/2a = −120/(−4) = 30 unidades · Nível 8 (375–400) · D25 — Eixo III</div>
+    </div>
+
+    <!-- Quiz B -->
+    <div class="quiz-card">
+      <div class="quiz-title">Questão B — Probabilidade (D33 · Tratamento da Informação)</div>
+      <div class="quiz-enun">
+        Em uma urna há 3 bolas vermelhas, 4 azuis e 5 brancas. Retirando 2 bolas
+        aleatoriamente <strong>sem reposição</strong>, qual a probabilidade de ambas serem azuis?
+      </div>
+      <div class="quiz-alts">
+        <button class="alt-btn" data-q="B" data-alt="A" onclick="check('B',this,'A','B')">A) 1/12</button>
+        <button class="alt-btn" data-q="B" data-alt="B" onclick="check('B',this,'B','B')">B) 1/11</button>
+        <button class="alt-btn" data-q="B" data-alt="C" onclick="check('B',this,'C','B')">C) 2/11</button>
+        <button class="alt-btn" data-q="B" data-alt="D" onclick="check('B',this,'D','B')">D) 1/6</button>
+      </div>
+      <div class="quiz-result" id="result-B"></div>
+      <div class="quiz-expl" id="expl-B">Resolução: C(4,2)/C(12,2) = 6/66 = 1/11 · Nível 7 (350–375) · D33 — Eixo IV</div>
+    </div>
+
+    <!-- Quiz C -->
+    <div class="quiz-card">
+      <div class="quiz-title">Questão C — Volume do Cilindro (D13 · Grandezas e Medidas)</div>
+      <div class="quiz-enun">
+        Um reservatório cilíndrico tem raio da base igual a 3 m e altura de 5 m.
+        Qual é o <strong>volume</strong> desse reservatório em m³? (Use π = 3,14)
+      </div>
+      <div class="quiz-alts">
+        <button class="alt-btn" data-q="C" data-alt="A" onclick="check('C',this,'A','C')">A) 47,10 m³</button>
+        <button class="alt-btn" data-q="C" data-alt="B" onclick="check('C',this,'B','C')">B) 94,20 m³</button>
+        <button class="alt-btn" data-q="C" data-alt="C" onclick="check('C',this,'C','C')">C) 141,30 m³</button>
+        <button class="alt-btn" data-q="C" data-alt="D" onclick="check('C',this,'D','C')">D) 282,60 m³</button>
+      </div>
+      <div class="quiz-result" id="result-C"></div>
+      <div class="quiz-expl" id="expl-C">Resolução: V = π × r² × h = 3,14 × 9 × 5 = 141,3 m³ · Nível 8 (375–400) · D13 — Eixo II</div>
+    </div>
+    <div class="campo"><label>Qual questão seu grupo analisou?</label>
+      <label class="radio-opt"><input type="radio" name="qst" value="A"> Questão A — Função Quadrática (D25)</label>
+      <label class="radio-opt"><input type="radio" name="qst" value="B"> Questão B — Probabilidade (D33)</label>
+      <label class="radio-opt"><input type="radio" name="qst" value="C"> Questão C — Volume do Cilindro (D13)</label>
+    </div>
+    <div class="campo"><label>1. Qual descritor é avaliado? A qual eixo da Matriz pertence?</label>
+      <textarea id="q_descritor" placeholder="Ex: D25 - ponto de máximo/mínimo | Eixo III - Álgebra e Funções"></textarea></div>
+    <div class="campo"><label>2. Em qual nível da Escala essa habilidade aparece?</label>
+      <input type="text" id="q_nivel" placeholder="Ex: Nível 8 (375-400)"></div>
+    <div class="campo"><label>3. Por que os alunos erram esse tipo de questão? Quais os erros mais comuns?</label>
+      <textarea id="q_erro" placeholder="Descreva os erros mais frequentes dos alunos..."></textarea></div>
+    <div class="campo"><label>4. Descreva UMA estratégia concreta de intervenção pedagógica:</label>
+      <textarea id="q_estrategia" placeholder="Material utilizado, metodologia, tempo estimado..."></textarea></div>
+    <div class="campo"><label>5. Que recurso pedagógico você usaria?</label>
+      <input type="text" id="q_recurso" placeholder="Ex: GeoGebra, material concreto, situação do cotidiano..."></div>
+  </div>
+  <div class="nav">
+    <button class="btn-outline" onclick="goTo(2)">← Voltar</button>
+    <button class="btn-primary" onclick="goTo(4)">Próximo →</button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" id="s4">
+  <div class="card">
+    <div class="st"><div class="st-icon">A5</div>Atividade 5 — Articulando Avaliação Interna × Externa</div>
+    <div class="info info-teal">Duplas · Portaria 190/2024 × SAEB/SABE</div>
+    <div class="campo"><label>1. Em qual padrão SABE a maioria dos seus alunos se encontra?</label>
+      <label class="radio-opt"><input type="radio" name="padrao" value="abaixo"> Abaixo do Básico</label>
+      <label class="radio-opt"><input type="radio" name="padrao" value="basico"> Básico</label>
+      <label class="radio-opt"><input type="radio" name="padrao" value="adequado"> Adequado</label>
+      <label class="radio-opt"><input type="radio" name="padrao" value="avancado"> Avançado</label>
+    </div>
+    <div class="campo"><label>2. Os resultados externos batem com suas avaliações internas? Explique:</label>
+      <textarea id="confronto" placeholder="São coerentes? Se não, por que?"></textarea></div>
+    <div class="campo"><label>3. Das 5 bases da Portaria 190/2024, qual você MAIS pratica?</label>
+      <select id="base_mais">
+        <option value="">Selecione...</option>
+        <option>I - Diagnóstica</option><option>II - Processual</option>
+        <option>III - Cumulativa</option><option>IV - Emancipatória</option><option>V - Recomposição</option>
+      </select></div>
+    <div class="campo"><label>Qual você MENOS pratica?</label>
+      <select id="base_menos">
+        <option value="">Selecione...</option>
+        <option>I - Diagnóstica</option><option>II - Processual</option>
+        <option>III - Cumulativa</option><option>IV - Emancipatória</option><option>V - Recomposição</option>
+      </select></div>
+    <div class="campo"><label>4. Descreva UM instrumento avaliativo diferente de prova para a próxima unidade:</label>
+      <textarea id="instrumento" placeholder="Tipo, como aplicar, habilidade SAEB envolvida..."></textarea></div>
+    <div class="campo"><label>5. Que dado do SAEB/SABE levaria para o próximo Pré-Conselho de Classe?</label>
+      <textarea id="conselho" placeholder="Qual dado e como apresentaria aos colegas..."></textarea></div>
+  </div>
+  <div class="nav">
+    <button class="btn-outline" onclick="goTo(3)">← Voltar</button>
+    <button class="btn-primary" onclick="goTo(5)">Próximo →</button>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" id="s5">
+  <div class="card">
+    <div class="st"><div class="st-icon">SR</div>Saída Reflexiva — Compromisso Pedagógico</div>
+    <div class="info info-teal">10 minutos · Individual · Encerramento da oficina</div>
+    <div class="campo"><label>1. O que você NÃO sabia sobre o SAEB e agora sabe?</label>
+      <textarea id="r1" placeholder="Seu principal aprendizado nesta oficina..."></textarea></div>
+    <div class="campo"><label>2. Um descritor de Matemática que você vai trabalhar de forma diferente:</label>
+      <input type="text" id="r2" placeholder="Ex: D25 - função quadrática..."></div>
+    <div class="campo"><label>3. Seu compromisso pedagógico para as próximas 2 semanas:</label>
+      <textarea id="r3" placeholder="Seja específico sobre o que vai fazer diferente..."></textarea></div>
+    <div class="campo"><label>4. Avalie esta oficina:</label>
+      <div class="stars" id="stars">
+        <span class="star" onclick="setStar(1)">★</span>
+        <span class="star" onclick="setStar(2)">★</span>
+        <span class="star" onclick="setStar(3)">★</span>
+        <span class="star" onclick="setStar(4)">★</span>
+        <span class="star" onclick="setStar(5)">★</span>
+      </div>
+      <input type="hidden" id="nota" value="0">
+    </div>
+    <div class="campo"><label>5. Sugestões ou comentários (opcional):</label>
+      <textarea id="r5" placeholder="Sugestões para próximas oficinas..."></textarea></div>
+  </div>
+  <div class="nav">
+    <button class="btn-outline" onclick="goTo(4)">← Voltar</button>
+    <button class="btn-success" onclick="enviar()">✓ Enviar Respostas</button>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div id="result" style="display:none">
+  <div class="result-card">
+    <div class="result-icon">✓</div>
+    <h2>Respostas enviadas!</h2>
+    <p>Obrigado pela participação na Oficina SAEB — Matemática.<br>
+    Para salvar seu registro, pressione <strong>Ctrl+P</strong> e escolha "Salvar como PDF".</p>
+    <button class="btn-primary" onclick="window.print()" style="margin:0 auto">Salvar como PDF</button>
+    <div class="resumo-box" id="resumo"></div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+var nota = 0;
+
+/* ── Quiz interativo ── */
+function check(qId, btn, chosen, correct) {
+  /* desabilita todos os botões da questão */
+  document.querySelectorAll('[data-q="' + qId + '"]').forEach(function(b) {
+    b.disabled = true;
+    /* destaca a resposta correta se o usuário errou */
+    if (chosen !== correct && b.getAttribute('data-alt') === correct) {
+      b.classList.add('reveal');
+    }
+  });
+  var resultEl = document.getElementById('result-' + qId);
+  var explEl   = document.getElementById('expl-'   + qId);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    resultEl.innerHTML  = '✓ Acertou! Parabéns!';
+    resultEl.className  = 'quiz-result show acertou';
+  } else {
+    btn.classList.add('wrong');
+    resultEl.innerHTML  = '✗ Errou! A resposta correta é a alternativa <strong>' + correct + '</strong>.';
+    resultEl.className  = 'quiz-result show errou';
+  }
+  explEl.classList.add('show');
+}
+
+function goTo(n) {
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
+  var el = document.getElementById('s' + n);
+  if (el) el.classList.add('active');
+  document.getElementById('slabel').textContent = 'Etapa ' + n + ' de 5';
+  for (var i = 1; i <= 5; i++) {
+    var dot   = document.getElementById('dot-' + i);
+    var line  = document.getElementById('line-' + i);
+    var layer = document.getElementById('bg-' + i);
+    dot.classList.toggle('active', i === n);
+    dot.classList.toggle('done',   i < n);
+    if (line) line.classList.toggle('done', i < n);
+    if (layer) {
+      layer.classList.toggle('visible', i === n);
+      var vid = layer.querySelector('video');
+      if (vid) { if (i === n) { vid.play(); } else { vid.pause(); } }
+    }
+  }
+  window.scrollTo(0, 0);
+}
+
+function setStar(v) {
+  nota = v;
+  document.getElementById('nota').value = v;
+  document.querySelectorAll('.star').forEach(function(s, i){ s.classList.toggle('on', i < v); });
+}
+
+function getR(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; }
+function getQ(name) { var e = document.querySelector('[name=' + name + ']:checked'); return e ? e.value : '—'; }
+
+function enviar() {
+  var resumo =
+    '<strong>Participante:</strong> ' + getR('nome') + ' — ' + getR('escola') + '<br>' +
+    '<strong>Turmas:</strong> ' + getR('turma') + '<br><br>' +
+    '<strong>Atividade 1 · Palavra SAEB:</strong> ' + getR('palavra') + '<br>' +
+    '<strong>Expectativa:</strong> ' + getR('expectativa') + '<br><br>' +
+    '<strong>Atividade 2 · Nível estimado:</strong> ' + getR('nivel') + '<br>' +
+    '<strong>Justificativa:</strong> ' + getR('nivel_por') + '<br>' +
+    '<strong>Habilidades Nível 6:</strong> ' + getR('nivel6_ja') + '<br>' +
+    '<strong>Maior dificuldade N7/8:</strong> ' + getR('nivel78_dif') + '<br><br>' +
+    '<strong>Atividade 3 · Questão:</strong> ' + getQ('qst') + '<br>' +
+    '<strong>Descritor:</strong> ' + getR('q_descritor') + '<br>' +
+    '<strong>Nível:</strong> ' + getR('q_nivel') + '<br>' +
+    '<strong>Por que erram:</strong> ' + getR('q_erro') + '<br>' +
+    '<strong>Estratégia:</strong> ' + getR('q_estrategia') + '<br>' +
+    '<strong>Recurso:</strong> ' + getR('q_recurso') + '<br><br>' +
+    '<strong>Atividade 5 · Padrão SABE:</strong> ' + getQ('padrao') + '<br>' +
+    '<strong>Confrontação:</strong> ' + getR('confronto') + '<br>' +
+    '<strong>Base mais praticada:</strong> ' + getR('base_mais') + '<br>' +
+    '<strong>Base menos praticada:</strong> ' + getR('base_menos') + '<br>' +
+    '<strong>Instrumento avaliativo:</strong> ' + getR('instrumento') + '<br>' +
+    '<strong>Dado para Conselho:</strong> ' + getR('conselho') + '<br><br>' +
+    '<strong>Saída Reflexiva · Aprendizado:</strong> ' + getR('r1') + '<br>' +
+    '<strong>Descritor a mudar:</strong> ' + getR('r2') + '<br>' +
+    '<strong>Compromisso:</strong> ' + getR('r3') + '<br>' +
+    '<strong>Avaliação da oficina:</strong> ' + nota + ' estrela(s)<br>' +
+    '<strong>Sugestões:</strong> ' + getR('r5');
+  document.querySelectorAll('.step').forEach(function(s){ s.style.display = 'none'; });
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('resumo').innerHTML = resumo;
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
