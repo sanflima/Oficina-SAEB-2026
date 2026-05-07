@@ -215,7 +215,8 @@ nav {
 .card-gold:hover      { border-color: rgba(251,191,36,.55); background: rgba(245,158,11,.20); }
 /* ── Instructors ──────────────────────────── */
 .instructors { padding: 88px 0; background: var(--bg-page); }
-.inst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+.inst-grid { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 48px; justify-content: center; }
+.inst-card { flex: 0 1 300px; }
 .inst-card {
   background: var(--white); border: 1px solid var(--border-card);
   border-radius: var(--radius-lg); padding: 24px;
@@ -636,7 +637,7 @@ footer { background: var(--navy-900); padding: 56px 0 32px; }
       </div>
       <div class="inst-card">
         <img class="inst-avatar" src="assets/raquel.png" alt="Prof.ª Raquel da Silva Araujo Brito">
-        <div class="inst-name">Prof.ª Esp. Raquel da Silva Araujo Brito</div>
+        <div class="inst-name">Prof. Raquel da Silva Araujo Brito</div>
         <div class="inst-role">Professora — EREM Anísio Veras (Rede Estadual de PE)</div>
         <div class="inst-bio">Especialista em Matemática, suas tecnologias e o mundo do trabalho — IFPI.</div>
       </div>
