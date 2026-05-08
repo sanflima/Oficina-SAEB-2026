@@ -595,6 +595,7 @@ textarea { min-height: 88px; resize: vertical; }
     <p>Obrigado pela participação na Oficina SAEB — Matemática.<br>
     Para salvar seu registro, pressione <strong>Ctrl+P</strong> e escolha "Salvar como PDF".</p>
     <button class="btn-primary" onclick="window.print()" style="margin:0 auto">Salvar como PDF</button>
+    <p id="envio-status" style="font-size:13px;margin-top:12px;min-height:18px"></p>
     <div class="resumo-box" id="resumo"></div>
   </div>
 </div>
@@ -724,7 +725,15 @@ function enviar() {
   fd.append('nota',        nota);
   fd.append('r5',          getR('r5'));
 
-  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: fd });
+  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: fd })
+    .then(function() {
+      var el = document.getElementById('envio-status');
+      if (el) { el.textContent = '✔ Dados registrados na planilha.'; el.style.color = '#16a34a'; }
+    })
+    .catch(function() {
+      var el = document.getElementById('envio-status');
+      if (el) { el.textContent = '⚠ Não foi possível enviar os dados. Verifique a conexão.'; el.style.color = '#dc2626'; }
+    });
 }
 </script>
 </body>

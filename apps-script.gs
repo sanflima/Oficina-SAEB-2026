@@ -20,6 +20,12 @@ function testarEmail() {
   Logger.log('E-mail enviado para ' + EMAIL_DESTINO);
 }
 
+/* ── Teste via browser: abra a URL do deploy no navegador para verificar ── */
+function doGet(e) {
+  var msg = 'Apps Script OK — ' + new Date().toLocaleString('pt-BR', {timeZone:'America/Recife'});
+  return ContentService.createTextOutput(msg);
+}
+
 /* ── Roteador principal ── */
 function doPost(e) {
   var d = e.parameter;
