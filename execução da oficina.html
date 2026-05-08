@@ -658,6 +658,8 @@ function setStar(v) {
 function getR(id) { var e = document.getElementById(id); return e ? (e.value || '—') : '—'; }
 function getQ(name) { var e = document.querySelector('[name=' + name + ']:checked'); return e ? e.value : '—'; }
 
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbx7CXmR44-8LO43iwf7pAfvGeJP4CMF62kG1McDq-kXleftunneciNUpylSGon68eAEmw/exec';
+
 function enviar() {
   var resumo =
     '<strong>Participante:</strong> ' + getR('nome') + ' — ' + getR('escola') + '<br>' +
@@ -685,10 +687,44 @@ function enviar() {
     '<strong>Compromisso:</strong> ' + getR('r3') + '<br>' +
     '<strong>Avaliação da oficina:</strong> ' + nota + ' estrela(s)<br>' +
     '<strong>Sugestões:</strong> ' + getR('r5');
+
+  /* Mostra resultado imediatamente */
   document.querySelectorAll('.step').forEach(function(s){ s.style.display = 'none'; });
   document.getElementById('result').style.display = 'block';
   document.getElementById('resumo').innerHTML = resumo;
   window.scrollTo(0, 0);
+
+  /* Envia dados para Google Sheets + e-mail em background */
+  var fd = new FormData();
+  fd.append('tipo',        'oficina');
+  fd.append('nome',        getR('nome'));
+  fd.append('escola',      getR('escola'));
+  fd.append('turma',       getR('turma'));
+  fd.append('palavra',     getR('palavra'));
+  fd.append('expectativa', getR('expectativa'));
+  fd.append('nivel',       getR('nivel'));
+  fd.append('nivel_por',   getR('nivel_por'));
+  fd.append('nivel6_ja',   getR('nivel6_ja'));
+  fd.append('nivel78_dif', getR('nivel78_dif'));
+  fd.append('qst',         getQ('qst'));
+  fd.append('q_descritor', getR('q_descritor'));
+  fd.append('q_nivel',     getR('q_nivel'));
+  fd.append('q_erro',      getR('q_erro'));
+  fd.append('q_estrategia',getR('q_estrategia'));
+  fd.append('q_recurso',   getR('q_recurso'));
+  fd.append('padrao',      getQ('padrao'));
+  fd.append('confronto',   getR('confronto'));
+  fd.append('base_mais',   getR('base_mais'));
+  fd.append('base_menos',  getR('base_menos'));
+  fd.append('instrumento', getR('instrumento'));
+  fd.append('conselho',    getR('conselho'));
+  fd.append('r1',          getR('r1'));
+  fd.append('r2',          getR('r2'));
+  fd.append('r3',          getR('r3'));
+  fd.append('nota',        nota);
+  fd.append('r5',          getR('r5'));
+
+  fetch(SHEET_URL, { method: 'POST', mode: 'no-cors', body: fd });
 }
 </script>
 </body>
