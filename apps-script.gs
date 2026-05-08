@@ -156,4 +156,3 @@ function handleOficina(d) {
            .setMimeType(ContentService.MimeType.JSON);
   }
 }
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzDOdom3eoLTl6CZ2R_yYPYPYe3DNoQr5WmNWUd6AdTAYhrsiUvRPe9VwHkO1tlerXjfQ/exec';
