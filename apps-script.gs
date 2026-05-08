@@ -10,6 +10,16 @@
 var SPREADSHEET_ID = '1czjNI9uKTfIsRzO3PBwR_2VyBWfdsRuIZ3PFFrWEkCE';
 var EMAIL_DESTINO  = 'sanflima12@gmail.com';
 
+/* ── Função de teste — execute uma vez no editor para autorizar o Gmail ── */
+function testarEmail() {
+  MailApp.sendEmail({
+    to:       EMAIL_DESTINO,
+    subject:  '✅ Teste — Oficina SAEB funcionando',
+    htmlBody: '<h2>Teste de e-mail</h2><p>Se chegou aqui, o envio automático está funcionando!</p>'
+  });
+  Logger.log('E-mail enviado para ' + EMAIL_DESTINO);
+}
+
 /* ── Roteador principal ── */
 function doPost(e) {
   var d = e.parameter;
@@ -146,3 +156,4 @@ function handleOficina(d) {
            .setMimeType(ContentService.MimeType.JSON);
   }
 }
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbzDOdom3eoLTl6CZ2R_yYPYPYe3DNoQr5WmNWUd6AdTAYhrsiUvRPe9VwHkO1tlerXjfQ/exec';
